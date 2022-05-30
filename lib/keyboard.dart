@@ -8,7 +8,71 @@ class Keyboard extends StatefulWidget {
   State<Keyboard> createState() => _KeyboardState();
 }
 
+const List<String> keyboardFirstRowLetters = [
+  "Q",
+  "W",
+  "E",
+  "R",
+  "T",
+  "Y",
+  "U",
+  "I",
+  "O",
+  "P"
+];
+
+const List<String> keyboardSecondRowLetters = [
+  "A",
+  "S",
+  "D",
+  "F",
+  "G",
+  "H",
+  "J",
+  "K",
+  "L"
+];
+const List<String> keyboardThirdRowLetters = [
+  "Z",
+  "X",
+  "C",
+  "V",
+  "B",
+  "N",
+  "M"
+];
+
+const List<String> keyboardLetters = [
+  ...keyboardFirstRowLetters,
+  ...keyboardSecondRowLetters,
+  ...keyboardThirdRowLetters,
+];
+const int maxInputLetters = 5;
+
 class _KeyboardState extends State<Keyboard> {
+  String input = "";
+
+  void backspace() {
+    if (input.isEmpty) {
+      return;
+    }
+    setState(() {
+      input = input.substring(0, input.length - 1);
+    });
+  }
+
+  void inputLetter(String letter) {
+    if (input.length == maxInputLetters) {
+      return;
+    }
+    if (!keyboardLetters.contains(letter)) {
+      return;
+    }
+    setState(() {
+      input = input + letter;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -18,12 +82,13 @@ class _KeyboardState extends State<Keyboard> {
           var keySize = constraints.maxWidth / 10;
           return Column(
             children: [
+              Text(input.isNotEmpty ? input : "-"),
               Row(
                 children: [
-                  for (var keyName in "QWERTYUIOP".split(""))
+                  for (var keyName in keyboardFirstRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        print(keyName);
+                        inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.blueGrey,
@@ -34,10 +99,10 @@ class _KeyboardState extends State<Keyboard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (var keyName in "ASDFGHJKL".split(""))
+                  for (var keyName in keyboardSecondRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        print(keyName);
+                        inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.yellow,
@@ -62,10 +127,10 @@ class _KeyboardState extends State<Keyboard> {
                       ),
                     ),
                   ),
-                  for (var keyName in "ZXCVBNM".split(""))
+                  for (var keyName in keyboardThirdRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        print(keyName);
+                        inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.green,
@@ -75,9 +140,7 @@ class _KeyboardState extends State<Keyboard> {
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
                     color: Colors.blueGrey,
-                    onTap: () {
-                      print("Delete");
-                    },
+                    onTap: backspace,
                     child: const Center(
                       child: Text(
                         "<X",
@@ -98,7 +161,12 @@ class _KeyboardState extends State<Keyboard> {
     if (event is! KeyDownEvent) {
       return false;
     }
-    print(event);
+    var letter = event.logicalKey.keyLabel;
+    if (letter == "Backspace") {
+      backspace();
+    } else {
+      inputLetter(letter);
+    }
     return true;
   }
 
