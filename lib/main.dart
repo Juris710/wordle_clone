@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:wordle_test/keyboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,158 +48,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class KeyBoard extends StatefulWidget {
-  const KeyBoard({Key? key}) : super(key: key);
-
-  @override
-  State<KeyBoard> createState() => _KeyBoardState();
-}
-
-class _KeyBoardState extends State<KeyBoard> {
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 800),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          var keySize = constraints.maxWidth / 10;
-          return Column(
-            children: [
-              Row(
-                children: [
-                  for (var keyName in "QWERTYUIOP".split(""))
-                    KeyboardKey(
-                        keySize: keySize,
-                        color: Colors.blueGrey,
-                        keyName: keyName)
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var keyName in "ASDFGHJKL".split(""))
-                    KeyboardKey(
-                        keySize: keySize, color: Colors.yellow, keyName: keyName),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: keySize * 1.5,
-                    height: keySize,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          print("Enter");
-                        },
-                        child: Container(
-                          color: Colors.blueGrey,
-                          child: const Center(
-                            child: Text(
-                              "Enter",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  for (var keyName in "ZXCVBNM".split(""))
-                    KeyboardKey(
-                        keySize: keySize, color: Colors.green, keyName: keyName),
-                  SizedBox(
-                    width: keySize * 1.5,
-                    height: keySize,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          print("Delete");
-                        },
-                        child: Container(
-                          color: Colors.blueGrey,
-                          child: const Center(
-                            child: Text(
-                              "<X",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  bool handleHardwareKeyboard(KeyEvent event) {
-    if(event is! KeyDownEvent) {
-      return false;
-    }
-    print(event);
-    return true;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    HardwareKeyboard.instance.addHandler(handleHardwareKeyboard);
-  }
-
-  @override
-  void dispose() {
-    HardwareKeyboard.instance.removeHandler(handleHardwareKeyboard);
-    super.dispose();
-  }
-}
-
-class KeyboardKey extends StatelessWidget {
-  final double keySize;
-
-  final Color color;
-
-  final String keyName;
-
-  const KeyboardKey(
-      {Key? key,
-      required this.keySize,
-      required this.color,
-      required this.keyName})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: keySize,
-      height: keySize,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: GestureDetector(
-          onTap: () {
-            print(keyName);
-          },
-          child: Container(
-            color: color,
-            child: Center(
-              child: Text(
-                keyName,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -236,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Spacer(),
-            KeyBoard(),
+            Keyboard(),
           ],
         ),
       ),
