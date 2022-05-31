@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
+
+import 'riverpod/guess.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "Q",
@@ -36,25 +39,16 @@ const List<String> keyboardThirdRowLetters = [
   "M"
 ];
 
-class Keyboard extends StatefulWidget {
-  final void Function(String) inputLetter;
-  final VoidCallback backspace;
-  final VoidCallback enter;
+class Keyboard extends ConsumerStatefulWidget {
   final Map<String, HitBlowState> hitBlowStates;
 
-  const Keyboard(
-      {Key? key,
-      required this.inputLetter,
-      required this.backspace,
-      required this.enter,
-      required this.hitBlowStates})
-      : super(key: key);
+  const Keyboard({Key? key, required this.hitBlowStates}) : super(key: key);
 
   @override
-  State<Keyboard> createState() => _KeyboardState();
+  ConsumerState<Keyboard> createState() => _KeyboardState();
 }
 
-class _KeyboardState extends State<Keyboard> {
+class _KeyboardState extends ConsumerState<Keyboard> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -68,9 +62,6 @@ class _KeyboardState extends State<Keyboard> {
                 children: [
                   for (var keyName in keyboardFirstRowLetters)
                     LetterKeyboardKey(
-                      onTap: () {
-                        widget.inputLetter(keyName);
-                      },
                       keySize: keySize,
                       hitBlowState:
                           widget.hitBlowStates[keyName] ?? HitBlowState.none,
@@ -83,9 +74,6 @@ class _KeyboardState extends State<Keyboard> {
                 children: [
                   for (var keyName in keyboardSecondRowLetters)
                     LetterKeyboardKey(
-                      onTap: () {
-                        widget.inputLetter(keyName);
-                      },
                       keySize: keySize,
                       hitBlowState:
                           widget.hitBlowStates[keyName] ?? HitBlowState.none,
@@ -100,7 +88,9 @@ class _KeyboardState extends State<Keyboard> {
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
                     color: Colors.blueGrey,
-                    onTap: widget.enter,
+                    onTap: () {
+                      enter();
+                    },
                     child: const Center(
                       child: Text(
                         "Enter",
@@ -109,9 +99,6 @@ class _KeyboardState extends State<Keyboard> {
                   ),
                   for (var keyName in keyboardThirdRowLetters)
                     LetterKeyboardKey(
-                      onTap: () {
-                        widget.inputLetter(keyName);
-                      },
                       keySize: keySize,
                       hitBlowState:
                           widget.hitBlowStates[keyName] ?? HitBlowState.none,
@@ -121,7 +108,9 @@ class _KeyboardState extends State<Keyboard> {
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
                     color: Colors.blueGrey,
-                    onTap: widget.backspace,
+                    onTap: () {
+                      ref.read(guessProvider.notifier).backspace();
+                    },
                     child: const Center(
                       child: Icon(
                         Icons.backspace_outlined,
@@ -137,17 +126,22 @@ class _KeyboardState extends State<Keyboard> {
     );
   }
 
+  void enter() {
+    final guess = ref.read(guessProvider);
+    print("Enter $guess");
+  }
+
   bool handleHardwareKeyboard(KeyEvent event) {
     if (event is! KeyDownEvent) {
       return false;
     }
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
-      widget.backspace();
+      ref.read(guessProvider.notifier).backspace();
     } else if (letter == "Enter") {
-      widget.enter();
+      enter();
     } else {
-      widget.inputLetter(letter);
+      ref.read(guessProvider.notifier).inputLetter(letter);
     }
     return true;
   }
@@ -200,22 +194,20 @@ class KeyboardKey extends StatelessWidget {
   }
 }
 
-class LetterKeyboardKey extends StatelessWidget {
+class LetterKeyboardKey extends ConsumerWidget {
   final String keyName;
   final double keySize;
-  final GestureTapCallback onTap;
   final HitBlowState hitBlowState;
 
   const LetterKeyboardKey(
       {Key? key,
       required this.keySize,
       required this.keyName,
-      required this.onTap,
       required this.hitBlowState})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Color color;
     switch (hitBlowState) {
       case HitBlowState.hit:
@@ -229,7 +221,9 @@ class LetterKeyboardKey extends StatelessWidget {
         break;
     }
     return KeyboardKey(
-      onTap: onTap,
+      onTap: () {
+        ref.read(guessProvider.notifier).inputLetter(keyName);
+      },
       keyWidth: keySize,
       keyHeight: keySize,
       color: color,

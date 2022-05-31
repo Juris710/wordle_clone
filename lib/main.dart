@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/keyboard.dart';
+import 'package:wordle_test/riverpod/guess.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,16 +14,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blueGrey,
-            brightness: Brightness.dark,
-            surface:Colors.blueGrey
-        )
+    return ProviderScope(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blueGrey,
+              brightness: Brightness.dark,
+              surface:Colors.blueGrey
+          )
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -75,30 +79,9 @@ const List<String> allowedLetters = [
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
-  // TODO: inputとhitBlowStatesをInheritedWidgetやState管理ライブラリで管理
-  String input = "";
+  // TODO: hitBlowStatesをRiverpodで管理
   Map<String, HitBlowState> hitBlowStates = Map.fromIterable(allowedLetters, value: (_)=>HitBlowState.none);
 
-  void backspace() {
-    if (input.isEmpty) {
-      return;
-    }
-    setState(() {
-      input = input.substring(0, input.length - 1);
-    });
-  }
-
-  void inputLetter(String letter) {
-    if (input.length == maxInputLetters) {
-      return;
-    }
-    if (!allowedLetters.contains(letter)) {
-      return;
-    }
-    setState(() {
-      input = input + letter;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,14 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Spacer(),
-            Text(input.isNotEmpty ? input : "-"),
+            const GuessPreview(),
             Keyboard(
-              backspace: backspace,
-              inputLetter: inputLetter,
               hitBlowStates: hitBlowStates,
-              enter: () {
-                print("Enter $input");
-              },
             ),
           ],
         ),
@@ -153,5 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
       //   child: const Icon(Icons.add),
       // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+class GuessPreview extends ConsumerWidget {
+  const GuessPreview({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final guess = ref.watch(guessProvider);
+    return Text(guess.isEmpty ? "-" : guess);
   }
 }
