@@ -34,24 +34,22 @@ const List<String> keyboardThirdRowLetters = [
   "N",
   "M"
 ];
-const List<String> keyboardLetters = [
-  ...keyboardFirstRowLetters,
-  ...keyboardSecondRowLetters,
-  ...keyboardThirdRowLetters,
-];
 
 class Keyboard extends StatefulWidget {
   final void Function(String) inputLetter;
   final VoidCallback backspace;
   final VoidCallback enter;
 
-  const Keyboard({Key? key, required this.inputLetter, required this.backspace, required this.enter})
+  const Keyboard(
+      {Key? key,
+      required this.inputLetter,
+      required this.backspace,
+      required this.enter})
       : super(key: key);
 
   @override
   State<Keyboard> createState() => _KeyboardState();
 }
-
 
 class _KeyboardState extends State<Keyboard> {
   @override
@@ -120,7 +118,10 @@ class _KeyboardState extends State<Keyboard> {
                     color: Colors.blueGrey,
                     onTap: widget.backspace,
                     child: const Center(
-                      child: Icon(Icons.backspace_outlined, color: Colors.white,),
+                      child: Icon(
+                        Icons.backspace_outlined,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -139,9 +140,9 @@ class _KeyboardState extends State<Keyboard> {
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
       widget.backspace();
-    } else if (letter == "Enter")  {
+    } else if (letter == "Enter") {
       widget.enter();
-    } else  {
+    } else {
       widget.inputLetter(letter);
     }
     return true;

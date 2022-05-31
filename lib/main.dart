@@ -47,7 +47,36 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 const int maxInputLetters = 5;
+const List<String> allowedLetters = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z"
+];
 
 class _MyHomePageState extends State<MyHomePage> {
   String input = "";
@@ -65,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (input.length == maxInputLetters) {
       return;
     }
-    if (!keyboardLetters.contains(letter)) {
+    if (!allowedLetters.contains(letter)) {
       return;
     }
     setState(() {
@@ -112,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Keyboard(
               backspace: backspace,
               inputLetter: inputLetter,
-              enter: (){
+              enter: () {
                 print("Enter $input");
               },
             ),
