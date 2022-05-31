@@ -104,7 +104,6 @@ class _KeyboardState extends State<Keyboard> {
                     child: const Center(
                       child: Text(
                         "Enter",
-                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -126,7 +125,6 @@ class _KeyboardState extends State<Keyboard> {
                     child: const Center(
                       child: Icon(
                         Icons.backspace_outlined,
-                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -238,7 +236,6 @@ class LetterKeyboardKey extends StatelessWidget {
       child: Center(
         child: Text(
           keyName,
-          style: const TextStyle(color: Colors.white),
         ),
       ),
     );
