@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Keyboard extends StatefulWidget {
-  const Keyboard({Key? key}) : super(key: key);
-
-  @override
-  State<Keyboard> createState() => _KeyboardState();
-}
-
 const List<String> keyboardFirstRowLetters = [
   "Q",
   "W",
@@ -41,38 +34,25 @@ const List<String> keyboardThirdRowLetters = [
   "N",
   "M"
 ];
-
 const List<String> keyboardLetters = [
   ...keyboardFirstRowLetters,
   ...keyboardSecondRowLetters,
   ...keyboardThirdRowLetters,
 ];
-const int maxInputLetters = 5;
+
+class Keyboard extends StatefulWidget {
+  final void Function(String) inputLetter;
+  final VoidCallback backspace;
+
+  const Keyboard({Key? key, required this.inputLetter, required this.backspace})
+      : super(key: key);
+
+  @override
+  State<Keyboard> createState() => _KeyboardState();
+}
+
 
 class _KeyboardState extends State<Keyboard> {
-  String input = "";
-
-  void backspace() {
-    if (input.isEmpty) {
-      return;
-    }
-    setState(() {
-      input = input.substring(0, input.length - 1);
-    });
-  }
-
-  void inputLetter(String letter) {
-    if (input.length == maxInputLetters) {
-      return;
-    }
-    if (!keyboardLetters.contains(letter)) {
-      return;
-    }
-    setState(() {
-      input = input + letter;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
@@ -82,13 +62,12 @@ class _KeyboardState extends State<Keyboard> {
           var keySize = constraints.maxWidth / 10;
           return Column(
             children: [
-              Text(input.isNotEmpty ? input : "-"),
               Row(
                 children: [
                   for (var keyName in keyboardFirstRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        inputLetter(keyName);
+                        widget.inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.blueGrey,
@@ -102,7 +81,7 @@ class _KeyboardState extends State<Keyboard> {
                   for (var keyName in keyboardSecondRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        inputLetter(keyName);
+                        widget.inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.yellow,
@@ -130,7 +109,7 @@ class _KeyboardState extends State<Keyboard> {
                   for (var keyName in keyboardThirdRowLetters)
                     LetterKeyboardKey(
                       onTap: () {
-                        inputLetter(keyName);
+                        widget.inputLetter(keyName);
                       },
                       keySize: keySize,
                       color: Colors.green,
@@ -140,7 +119,7 @@ class _KeyboardState extends State<Keyboard> {
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
                     color: Colors.blueGrey,
-                    onTap: backspace,
+                    onTap: widget.backspace,
                     child: const Center(
                       child: Text(
                         "<X",
@@ -163,9 +142,9 @@ class _KeyboardState extends State<Keyboard> {
     }
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
-      backspace();
+      widget.backspace();
     } else {
-      inputLetter(letter);
+      widget.inputLetter(letter);
     }
     return true;
   }

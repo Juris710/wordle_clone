@@ -47,8 +47,32 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+const int maxInputLetters = 5;
 
 class _MyHomePageState extends State<MyHomePage> {
+  String input = "";
+
+  void backspace() {
+    if (input.isEmpty) {
+      return;
+    }
+    setState(() {
+      input = input.substring(0, input.length - 1);
+    });
+  }
+
+  void inputLetter(String letter) {
+    if (input.length == maxInputLetters) {
+      return;
+    }
+    if (!keyboardLetters.contains(letter)) {
+      return;
+    }
+    setState(() {
+      input = input + letter;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -82,9 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Spacer(),
-            Keyboard(),
+          children: <Widget>[
+            const Spacer(),
+            Text(input.isNotEmpty ? input : "-"),
+            Keyboard(
+              backspace: backspace,
+              inputLetter: inputLetter,
+            ),
           ],
         ),
       ),
