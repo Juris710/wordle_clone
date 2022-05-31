@@ -120,10 +120,7 @@ class _KeyboardState extends State<Keyboard> {
                     color: Colors.blueGrey,
                     onTap: widget.backspace,
                     child: const Center(
-                      child: Text(
-                        "<X",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: Icon(Icons.backspace_outlined, color: Colors.white,),
                     ),
                   ),
                 ],
