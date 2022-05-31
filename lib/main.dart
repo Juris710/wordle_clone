@@ -112,6 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Keyboard(
               backspace: backspace,
               inputLetter: inputLetter,
+              enter: (){
+                print("Enter $input");
+              },
             ),
           ],
         ),

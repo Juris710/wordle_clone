@@ -43,8 +43,9 @@ const List<String> keyboardLetters = [
 class Keyboard extends StatefulWidget {
   final void Function(String) inputLetter;
   final VoidCallback backspace;
+  final VoidCallback enter;
 
-  const Keyboard({Key? key, required this.inputLetter, required this.backspace})
+  const Keyboard({Key? key, required this.inputLetter, required this.backspace, required this.enter})
       : super(key: key);
 
   @override
@@ -96,9 +97,7 @@ class _KeyboardState extends State<Keyboard> {
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
                     color: Colors.blueGrey,
-                    onTap: () {
-                      print("Enter");
-                    },
+                    onTap: widget.enter,
                     child: const Center(
                       child: Text(
                         "Enter",
@@ -143,7 +142,9 @@ class _KeyboardState extends State<Keyboard> {
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
       widget.backspace();
-    } else {
+    } else if (letter == "Enter")  {
+      widget.enter();
+    } else  {
       widget.inputLetter(letter);
     }
     return true;
