@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wordle_test/hit_blow_state.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "Q",
@@ -39,12 +40,14 @@ class Keyboard extends StatefulWidget {
   final void Function(String) inputLetter;
   final VoidCallback backspace;
   final VoidCallback enter;
+  final Map<String, HitBlowState> hitBlowStates;
 
   const Keyboard(
       {Key? key,
       required this.inputLetter,
       required this.backspace,
-      required this.enter})
+      required this.enter,
+      required this.hitBlowStates})
       : super(key: key);
 
   @override
@@ -69,7 +72,8 @@ class _KeyboardState extends State<Keyboard> {
                         widget.inputLetter(keyName);
                       },
                       keySize: keySize,
-                      color: Colors.blueGrey,
+                      hitBlowState:
+                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                 ],
@@ -83,7 +87,8 @@ class _KeyboardState extends State<Keyboard> {
                         widget.inputLetter(keyName);
                       },
                       keySize: keySize,
-                      color: Colors.yellow,
+                      hitBlowState:
+                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                 ],
@@ -109,7 +114,8 @@ class _KeyboardState extends State<Keyboard> {
                         widget.inputLetter(keyName);
                       },
                       keySize: keySize,
-                      color: Colors.green,
+                      hitBlowState:
+                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                   KeyboardKey(
@@ -199,19 +205,31 @@ class KeyboardKey extends StatelessWidget {
 class LetterKeyboardKey extends StatelessWidget {
   final String keyName;
   final double keySize;
-  final Color color;
   final GestureTapCallback onTap;
+  final HitBlowState hitBlowState;
 
   const LetterKeyboardKey(
       {Key? key,
       required this.keySize,
       required this.keyName,
-      required this.color,
-      required this.onTap})
+      required this.onTap,
+      required this.hitBlowState})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color color;
+    switch (hitBlowState) {
+      case HitBlowState.hit:
+        color = Colors.green;
+        break;
+      case HitBlowState.blow:
+        color = Colors.yellow;
+        break;
+      default:
+        color = Colors.blueGrey;
+        break;
+    }
     return KeyboardKey(
       onTap: onTap,
       keyWidth: keySize,

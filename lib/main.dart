@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/keyboard.dart';
 
 void main() {
@@ -79,7 +80,9 @@ const List<String> allowedLetters = [
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
+  // TODO: inputとhitBlowStatesをInheritedWidgetやState管理ライブラリで管理
   String input = "";
+  Map<String, HitBlowState> hitBlowStates = Map.fromIterable(allowedLetters, value: (_)=>HitBlowState.none);
 
   void backspace() {
     if (input.isEmpty) {
@@ -141,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Keyboard(
               backspace: backspace,
               inputLetter: inputLetter,
+              hitBlowStates: hitBlowStates,
               enter: () {
                 print("Enter $input");
               },
