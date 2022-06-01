@@ -199,7 +199,7 @@ class LetterKeyboardKey extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hitBlowState =
         ref.watch(hitBlowStatesProvider.select((value) => value[keyName]));
-    Color color;
+    final Color color;
     switch (hitBlowState) {
       case HitBlowState.hit:
         color = Colors.green;
