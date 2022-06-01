@@ -175,11 +175,14 @@ class KeyboardKey extends StatelessWidget {
       height: keyHeight,
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            color: color,
-            child: child,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+              color: color,
+              child: child,
+            ),
           ),
         ),
       ),
