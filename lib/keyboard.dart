@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
+import 'package:wordle_test/riverpod/hit_blow_states.dart';
 
 import 'riverpod/guess.dart';
 
@@ -40,9 +41,7 @@ const List<String> keyboardThirdRowLetters = [
 ];
 
 class Keyboard extends ConsumerStatefulWidget {
-  final Map<String, HitBlowState> hitBlowStates;
-
-  const Keyboard({Key? key, required this.hitBlowStates}) : super(key: key);
+  const Keyboard({Key? key}) : super(key: key);
 
   @override
   ConsumerState<Keyboard> createState() => _KeyboardState();
@@ -63,8 +62,6 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   for (var keyName in keyboardFirstRowLetters)
                     LetterKeyboardKey(
                       keySize: keySize,
-                      hitBlowState:
-                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                 ],
@@ -75,8 +72,6 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   for (var keyName in keyboardSecondRowLetters)
                     LetterKeyboardKey(
                       keySize: keySize,
-                      hitBlowState:
-                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                 ],
@@ -100,8 +95,6 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   for (var keyName in keyboardThirdRowLetters)
                     LetterKeyboardKey(
                       keySize: keySize,
-                      hitBlowState:
-                          widget.hitBlowStates[keyName] ?? HitBlowState.none,
                       keyName: keyName,
                     ),
                   KeyboardKey(
@@ -197,17 +190,15 @@ class KeyboardKey extends StatelessWidget {
 class LetterKeyboardKey extends ConsumerWidget {
   final String keyName;
   final double keySize;
-  final HitBlowState hitBlowState;
 
   const LetterKeyboardKey(
-      {Key? key,
-      required this.keySize,
-      required this.keyName,
-      required this.hitBlowState})
+      {Key? key, required this.keySize, required this.keyName})
       : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final hitBlowState =
+        ref.watch(hitBlowStatesProvider.select((value) => value[keyName]));
     Color color;
     switch (hitBlowState) {
       case HitBlowState.hit:

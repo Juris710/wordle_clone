@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/keyboard.dart';
 import 'package:wordle_test/riverpod/guess.dart';
 
@@ -79,10 +78,6 @@ const List<String> allowedLetters = [
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
-  // TODO: hitBlowStatesをRiverpodで管理
-  Map<String, HitBlowState> hitBlowStates = Map.fromIterable(allowedLetters, value: (_)=>HitBlowState.none);
-
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -116,12 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Spacer(),
-            const GuessPreview(),
-            Keyboard(
-              hitBlowStates: hitBlowStates,
-            ),
+          children: const <Widget>[
+            Spacer(),
+            GuessPreview(),
+            Keyboard(),
           ],
         ),
       ),
