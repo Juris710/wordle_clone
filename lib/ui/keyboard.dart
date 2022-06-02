@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/hit_blow_states.dart';
 
@@ -205,13 +206,13 @@ class LetterKeyboardKey extends ConsumerWidget {
     final Color color;
     switch (hitBlowState) {
       case HitBlowState.hit:
-        color = Colors.green;
+        color = backgroundColorHit;
         break;
       case HitBlowState.blow:
-        color = Colors.yellow;
+        color = backgroundColorBlow;
         break;
       default:
-        color = Colors.blueGrey;
+        color = backgroundColorNone;
         break;
     }
     return KeyboardKey(

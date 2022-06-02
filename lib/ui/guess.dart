@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 
 class GuessDisplayLetter extends StatelessWidget {
@@ -16,13 +17,13 @@ class GuessDisplayLetter extends StatelessWidget {
     final Color color;
     switch (hitBlowState) {
       case HitBlowState.hit:
-        color = Colors.green;
+        color = backgroundColorHit;
         break;
       case HitBlowState.blow:
-        color = Colors.yellow;
+        color = backgroundColorBlow;
         break;
       default:
-        color = Colors.blueGrey;
+        color = backgroundColorNone;
         break;
     }
     return Padding(
