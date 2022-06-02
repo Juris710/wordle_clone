@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wordle_test/keyboard.dart';
+import 'package:wordle_test/ui/keyboard.dart';
 import 'package:wordle_test/riverpod/guess_input.dart';
 import 'package:collection/collection.dart';
 void main() {

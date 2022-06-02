@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/hit_blow_states.dart';
 
-import 'riverpod/guess_input.dart';
+import '../riverpod/guess_input.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "Q",

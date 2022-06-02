@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/keyboard.dart';
+import 'package:wordle_test/ui/keyboard.dart';
 import 'package:wordle_test/riverpod/guess_input.dart';
 
 void main() {
