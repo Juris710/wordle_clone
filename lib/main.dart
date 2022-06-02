@@ -120,7 +120,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 child: GuessesList(),
               ),
             ),
-            GuessPreview(),
             Keyboard(),
           ],
         ),
@@ -141,15 +140,5 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     assert(answer.length == guessLength);
     print("answer is $answer");
     ref.read(answerProvider.notifier).state = answer;
-  }
-}
-
-class GuessPreview extends ConsumerWidget {
-  const GuessPreview({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final guessInput = ref.watch(guessInputProvider);
-    return Text(guessInput.isEmpty ? "-" : guessInput);
   }
 }
