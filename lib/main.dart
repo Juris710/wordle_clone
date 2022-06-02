@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/ui/guess.dart';
 import 'package:wordle_test/ui/keyboard.dart';
 import 'package:wordle_test/riverpod/guess_input.dart';
 
@@ -105,7 +106,11 @@ class MyHomePage extends StatelessWidget {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
-            Spacer(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: GuessesList(),
+              ),
+            ),
             GuessPreview(),
             Keyboard(),
           ],
