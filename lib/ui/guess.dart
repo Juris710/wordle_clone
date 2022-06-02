@@ -24,8 +24,11 @@ class GuessDisplayLetter extends StatelessWidget {
       case HitBlowState.blow:
         color = backgroundColorBlow;
         break;
-      default:
+      case HitBlowState.miss:
         color = backgroundColorMiss;
+        break;
+      default:
+        color = backgroundColorNone;
         break;
     }
     return Padding(
@@ -59,7 +62,7 @@ class GuessDisplay extends ConsumerWidget {
     final input = ref.watch(guessInputProvider);
     final List<String> letters = List.generate(guessLength, (index) => "");
     final List<HitBlowState> hitBlowStates =
-        List.generate(guessLength, (index) => HitBlowState.miss);
+        List.generate(guessLength, (index) => HitBlowState.none);
     if (guesses.length > guessIndex) {
       final guess = guesses[guessIndex];
       for (int i = 0; i < guessLength; ++i) {
@@ -69,7 +72,6 @@ class GuessDisplay extends ConsumerWidget {
     } else if (guesses.length == guessIndex) {
       for (int i = 0; i < input.length; ++i) {
         letters[i] = input[i];
-        hitBlowStates[i] = HitBlowState.miss;
       }
     }
     return Row(
