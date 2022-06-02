@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
+import 'package:wordle_test/riverpod/guess.dart';
 
 class GuessDisplayLetter extends StatelessWidget {
   final String letter;
@@ -85,7 +86,7 @@ class GuessesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [for (int i = 0; i < 5; i++) const GuessDisplay()],
+      children: [for (int i = 0; i < maxGuessTrialCount; i++) const GuessDisplay()],
     );
   }
 }
