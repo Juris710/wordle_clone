@@ -247,7 +247,10 @@ class LetterKeyboardKey extends ConsumerWidget {
     }
     return KeyboardKey(
       onTap: () {
-        ref.read(guessInputProvider.notifier).inputLetter(keyName);
+        final canInput = ref.read(canInputProvider);
+        if(canInput) {
+          ref.read(guessInputProvider.notifier).inputLetter(keyName);
+        }
       },
       keyWidth: keySize,
       keyHeight: keySize,
