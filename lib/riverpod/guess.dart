@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-const List<String> allowedLetters = [
+const List<String> lettersInGuess = [
   "A",
   "B",
   "C",
@@ -29,16 +29,16 @@ const List<String> allowedLetters = [
   "Z"
 ];
 
-const int _guessLength = 5;
+const int guessLength = 5;
 
 class GuessNotifier extends StateNotifier<String> {
   GuessNotifier() : super("");
 
   void inputLetter(String letter) {
-    if (!allowedLetters.contains(letter)) {
+    if (!lettersInGuess.contains(letter)) {
       return;
     }
-    if (state.length == _guessLength) {
+    if (state.length == guessLength) {
       return;
     }
     state += letter;
