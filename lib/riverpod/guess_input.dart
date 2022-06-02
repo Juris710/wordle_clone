@@ -31,8 +31,8 @@ const List<String> lettersInGuess = [
 
 const int guessLength = 5;
 
-class GuessNotifier extends StateNotifier<String> {
-  GuessNotifier() : super("");
+class GuessInputNotifier extends StateNotifier<String> {
+  GuessInputNotifier() : super("");
 
   void inputLetter(String letter) {
     if (!lettersInGuess.contains(letter)) {
@@ -51,4 +51,4 @@ class GuessNotifier extends StateNotifier<String> {
   }
 }
 
-final guessProvider = StateNotifierProvider.autoDispose<GuessNotifier, String>((ref) => GuessNotifier());
+final guessInputProvider = StateNotifierProvider.autoDispose<GuessInputNotifier, String>((ref) => GuessInputNotifier());

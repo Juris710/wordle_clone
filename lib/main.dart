@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/keyboard.dart';
-import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_test/riverpod/guess_input.dart';
 
 void main() {
   runApp(const MyApp());
@@ -125,7 +125,7 @@ class GuessPreview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final guess = ref.watch(guessProvider);
-    return Text(guess.isEmpty ? "-" : guess);
+    final guessInput = ref.watch(guessInputProvider);
+    return Text(guessInput.isEmpty ? "-" : guessInput);
   }
 }

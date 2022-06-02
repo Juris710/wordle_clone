@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/hit_blow_states.dart';
 
-import 'riverpod/guess.dart';
+import 'riverpod/guess_input.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "Q",
@@ -102,7 +102,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                     keyHeight: keySize,
                     color: Colors.blueGrey,
                     onTap: () {
-                      ref.read(guessProvider.notifier).backspace();
+                      ref.read(guessInputProvider.notifier).backspace();
                     },
                     child: const Center(
                       child: Icon(
@@ -120,8 +120,8 @@ class _KeyboardState extends ConsumerState<Keyboard> {
   }
 
   void enter() {
-    final guess = ref.read(guessProvider);
-    print("Enter $guess");
+    final guessInput = ref.read(guessInputProvider);
+    print("Enter $guessInput");
   }
 
   bool handleHardwareKeyboard(KeyEvent event) {
@@ -130,11 +130,11 @@ class _KeyboardState extends ConsumerState<Keyboard> {
     }
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
-      ref.read(guessProvider.notifier).backspace();
+      ref.read(guessInputProvider.notifier).backspace();
     } else if (letter == "Enter") {
       enter();
     } else {
-      ref.read(guessProvider.notifier).inputLetter(letter);
+      ref.read(guessInputProvider.notifier).inputLetter(letter);
     }
     return true;
   }
@@ -216,7 +216,7 @@ class LetterKeyboardKey extends ConsumerWidget {
     }
     return KeyboardKey(
       onTap: () {
-        ref.read(guessProvider.notifier).inputLetter(keyName);
+        ref.read(guessInputProvider.notifier).inputLetter(keyName);
       },
       keyWidth: keySize,
       keyHeight: keySize,
