@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_test/riverpod/misc.dart';
 
 class GuessDisplayLetter extends StatelessWidget {
   final String letter;
@@ -87,11 +88,24 @@ class GuessDisplay extends ConsumerWidget {
   }
 }
 
-class GuessesList extends StatelessWidget {
+class GuessesList extends ConsumerWidget {
   const GuessesList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(isGameClearProvider, (previous, next) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("CLEAR!"),
+        duration: Duration(days: 1),
+      ));
+    });
+    ref.listen(isGameOverProvider, (previous, next) {
+      final answer = ref.read(answerProvider);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(answer),
+        duration: const Duration(days: 1),
+      ));
+    });
     return Column(
       children: [
         for (int i = 0; i < maxGuessTrialCount; i++) GuessDisplay(i),

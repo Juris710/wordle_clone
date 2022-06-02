@@ -118,6 +118,15 @@ class Guess {
     }
     return map;
   }
+
+  bool get isClear {
+    for (int i = 0; i < guessLength; ++i) {
+      if (hitBlowStateAt(i) != HitBlowState.hit) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 class GuessesNotifier extends StateNotifier<List<Guess>> {
@@ -141,6 +150,9 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     print(guess.toString());
     state = [...state, guess];
     ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
+    if (guess.isClear) {
+      ref.read(isGameClearProvider.notifier).state = true;
+    }
     return "";
   }
 }
