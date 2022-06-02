@@ -51,4 +51,4 @@ class GuessNotifier extends StateNotifier<String> {
   }
 }
 
-final guessProvider = StateNotifierProvider<GuessNotifier, String>((ref) => GuessNotifier());
+final guessProvider = StateNotifierProvider.autoDispose<GuessNotifier, String>((ref) => GuessNotifier());

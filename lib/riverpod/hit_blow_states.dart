@@ -13,5 +13,5 @@ class HitBlowStatesNotifier extends StateNotifier<Map<String, HitBlowState>> {
 }
 
 final hitBlowStatesProvider =
-    StateNotifierProvider<HitBlowStatesNotifier, Map<String, HitBlowState>>(
+    StateNotifierProvider.autoDispose<HitBlowStatesNotifier, Map<String, HitBlowState>>(
         (ref) => HitBlowStatesNotifier());
