@@ -8,37 +8,37 @@ import 'package:wordle_test/riverpod/guess.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 
 const List<String> keyboardFirstRowLetters = [
-  "Q",
-  "W",
-  "E",
-  "R",
-  "T",
-  "Y",
-  "U",
-  "I",
-  "O",
-  "P"
+  "q",
+  "w",
+  "e",
+  "r",
+  "t",
+  "y",
+  "u",
+  "i",
+  "o",
+  "p"
 ];
 
 const List<String> keyboardSecondRowLetters = [
-  "A",
-  "S",
-  "D",
-  "F",
-  "G",
-  "H",
-  "J",
-  "K",
-  "L"
+  "a",
+  "s",
+  "d",
+  "f",
+  "g",
+  "h",
+  "j",
+  "k",
+  "l"
 ];
 const List<String> keyboardThirdRowLetters = [
-  "Z",
-  "X",
-  "C",
-  "V",
-  "B",
-  "N",
-  "M"
+  "z",
+  "x",
+  "c",
+  "v",
+  "b",
+  "n",
+  "m"
 ];
 
 class Keyboard extends ConsumerStatefulWidget {
@@ -157,7 +157,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
     } else if (letter == "Enter") {
       enter();
     } else {
-      ref.read(guessInputProvider.notifier).inputLetter(letter);
+      ref.read(guessInputProvider.notifier).inputLetter(letter.toLowerCase());
     }
     return true;
   }
@@ -248,7 +248,7 @@ class LetterKeyboardKey extends ConsumerWidget {
     return KeyboardKey(
       onTap: () {
         final canInput = ref.read(canInputProvider);
-        if(canInput) {
+        if (canInput) {
           ref.read(guessInputProvider.notifier).inputLetter(keyName);
         }
       },
@@ -257,7 +257,7 @@ class LetterKeyboardKey extends ConsumerWidget {
       color: color,
       child: Center(
         child: Text(
-          keyName,
+          keyName.toUpperCase(),
         ),
       ),
     );

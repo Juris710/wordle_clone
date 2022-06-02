@@ -131,12 +131,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-  //TODO：文字は小文字で扱うように
 
   @override
   void initState() {
     super.initState();
-    final answer = words[Random().nextInt(words.length)].toUpperCase();
+    final answer = words[Random().nextInt(words.length)];
     assert(answer.length == guessLength);
     print("answer is $answer");
     ref.read(answerProvider.notifier).state = answer;

@@ -44,7 +44,7 @@ class GuessDisplayLetter extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
           color: color,
           child: Center(
-            child: Text(letter),
+            child: Text(letter.toUpperCase()),
           ),
         ),
       ),
