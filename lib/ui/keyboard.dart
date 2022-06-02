@@ -129,8 +129,11 @@ class _KeyboardState extends ConsumerState<Keyboard> {
   }
 
   void enter() {
-    final errorMessage = ref.read(guessesNotifierProvider.notifier).tryAddGuess();
-    print(errorMessage);
+    final errorMessage =
+        ref.read(guessesNotifierProvider.notifier).tryAddGuess();
+    if (errorMessage.isEmpty) {
+      ref.read(guessInputProvider.notifier).clear();
+    }
   }
 
   void backspace() {

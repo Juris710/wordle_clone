@@ -38,6 +38,10 @@ const int maxGuessTrialCount = 6;
 class GuessInputNotifier extends StateNotifier<String> {
   GuessInputNotifier() : super("");
 
+  void clear(){
+    state = "";
+  }
+
   void inputLetter(String letter) {
     if (!lettersInGuess.contains(letter)) {
       return;
