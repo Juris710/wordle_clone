@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/guess.dart';
@@ -47,34 +48,38 @@ class GuessDisplayLetter extends StatelessWidget {
   }
 }
 
-class GuessDisplay extends StatelessWidget {
-  const GuessDisplay({Key? key}) : super(key: key);
+class GuessDisplay extends ConsumerWidget {
+  final int guessIndex;
+
+  const GuessDisplay(this.guessIndex, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final guesses = ref.watch(guessesNotifierProvider);
+    final input = ref.watch(guessInputProvider);
+    final List<String> letters = List.generate(guessLength, (index) => "");
+    final List<HitBlowState> hitBlowStates =
+        List.generate(guessLength, (index) => HitBlowState.miss);
+    if (guesses.length > guessIndex) {
+      final guess = guesses[guessIndex];
+      for (int i = 0; i < guessLength; ++i) {
+        letters[i] = guess.letterAt(i);
+        hitBlowStates[i] = guess.hitBlowStateAt(i);
+      }
+    } else if (guesses.length == guessIndex) {
+      for (int i = 0; i < input.length; ++i) {
+        letters[i] = input[i];
+        hitBlowStates[i] = HitBlowState.miss;
+      }
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        GuessDisplayLetter(
-          letter: "H",
-          hitBlowState: HitBlowState.miss,
-        ),
-        GuessDisplayLetter(
-          letter: "E",
-          hitBlowState: HitBlowState.hit,
-        ),
-        GuessDisplayLetter(
-          letter: "L",
-          hitBlowState: HitBlowState.blow,
-        ),
-        GuessDisplayLetter(
-          letter: "L",
-          hitBlowState: HitBlowState.hit,
-        ),
-        GuessDisplayLetter(
-          letter: "O",
-          hitBlowState: HitBlowState.miss,
-        ),
+      children: [
+        for (int i = 0; i < guessLength; ++i)
+          GuessDisplayLetter(
+            letter: letters[i],
+            hitBlowState: hitBlowStates[i],
+          ),
       ],
     );
   }
@@ -86,7 +91,9 @@ class GuessesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [for (int i = 0; i < maxGuessTrialCount; i++) const GuessDisplay()],
+      children: [
+        for (int i = 0; i < maxGuessTrialCount; i++) GuessDisplay(i),
+      ],
     );
   }
 }
