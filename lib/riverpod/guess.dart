@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/hit_blow_state.dart';
+import 'package:wordle_test/riverpod/hit_blow_states.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/words.dart';
 
@@ -38,7 +39,7 @@ const int maxGuessTrialCount = 6;
 class GuessInputNotifier extends StateNotifier<String> {
   GuessInputNotifier() : super("");
 
-  void clear(){
+  void clear() {
     state = "";
   }
 
@@ -104,10 +105,18 @@ class Guess {
   @override
   String toString() {
     String result = "";
-    for (int i = 0; i < guessLength; ++i){
+    for (int i = 0; i < guessLength; ++i) {
       result += "${letterAt(i)}:${hitBlowStateAt(i)}, ";
     }
     return result;
+  }
+
+  Map<String, HitBlowState> toMap() {
+    final map = <String, HitBlowState>{};
+    for (int i = 0; i < guessLength; ++i) {
+      map[letterAt(i)] = hitBlowStateAt(i);
+    }
+    return map;
   }
 }
 
@@ -131,6 +140,7 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     final guess = generateGuess(answer, input);
     print(guess.toString());
     state = [...state, guess];
+    ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
     return "";
   }
 }

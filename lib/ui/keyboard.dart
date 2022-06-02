@@ -198,13 +198,18 @@ class KeyboardKey extends StatelessWidget {
       height: keyHeight,
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: onTap,
-            child: Container(
-              color: color,
-              child: child,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueGrey, width: 3),
+          ),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Container(
+                color: color,
+                child: child,
+              ),
             ),
           ),
         ),
@@ -233,8 +238,11 @@ class LetterKeyboardKey extends ConsumerWidget {
       case HitBlowState.blow:
         color = backgroundColorBlow;
         break;
-      default:
+      case HitBlowState.miss:
         color = backgroundColorMiss;
+        break;
+      default:
+        color = backgroundColorNone;
         break;
     }
     return KeyboardKey(
