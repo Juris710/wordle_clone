@@ -3,6 +3,7 @@ import 'package:wordle_test/riverpod/guess.dart';
 
 final answerProvider = StateProvider((ref) => "");
 
+// TODO：アニメーション実装後、前後で値を変える
 final isAnimationPlayingProvider = StateProvider((ref) => false);
 
 final canInputProvider = Provider((ref) {
@@ -11,6 +12,6 @@ final canInputProvider = Provider((ref) {
     return false;
   }
   assert(answer.length == guessLength);
-  final isAnimationPlaying =ref.watch(isAnimationPlayingProvider);
+  final isAnimationPlaying = ref.watch(isAnimationPlayingProvider);
   return !isAnimationPlaying;
 });
