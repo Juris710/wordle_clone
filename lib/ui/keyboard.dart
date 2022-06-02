@@ -230,21 +230,7 @@ class LetterKeyboardKey extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hitBlowState =
         ref.watch(hitBlowStatesProvider.select((value) => value[keyName]));
-    final Color color;
-    switch (hitBlowState) {
-      case HitBlowState.hit:
-        color = backgroundColorHit;
-        break;
-      case HitBlowState.blow:
-        color = backgroundColorBlow;
-        break;
-      case HitBlowState.miss:
-        color = backgroundColorMiss;
-        break;
-      default:
-        color = backgroundColorNone;
-        break;
-    }
+    final color = colorFromHitBlowState(hitBlowState ?? HitBlowState.none);
     return KeyboardKey(
       onTap: () {
         final canInput = ref.read(canInputProvider);
