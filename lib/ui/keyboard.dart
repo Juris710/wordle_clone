@@ -133,6 +133,9 @@ class _KeyboardState extends ConsumerState<Keyboard> {
         ref.read(guessesNotifierProvider.notifier).tryAddGuess();
     if (errorMessage.isEmpty) {
       ref.read(guessInputProvider.notifier).clear();
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorMessage)));
     }
   }
 
