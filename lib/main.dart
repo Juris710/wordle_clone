@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/ui/guess.dart';
 import 'package:wordle_test/ui/keyboard.dart';
-import 'package:wordle_test/riverpod/guess_input.dart';
+import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_test/words.dart';
 
 void main() {
   runApp(const MyApp());
@@ -58,7 +62,7 @@ const List<String> allowedLetters = [
   "Z"
 ];
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -73,6 +77,11 @@ class MyHomePage extends StatelessWidget {
   final String title;
 
   @override
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -84,7 +93,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -122,6 +131,16 @@ class MyHomePage extends StatelessWidget {
       //   child: const Icon(Icons.add),
       // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+  //TODO：文字は小文字で扱うように
+
+  @override
+  void initState() {
+    super.initState();
+    final answer = words[Random().nextInt(words.length)].toUpperCase();
+    assert(answer.length == guessLength);
+    print("answer is $answer");
+    ref.read(answerProvider.notifier).state = answer;
   }
 }
 

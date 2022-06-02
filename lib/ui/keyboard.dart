@@ -4,8 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/colors.dart';
 import 'package:wordle_test/hit_blow_state.dart';
 import 'package:wordle_test/riverpod/hit_blow_states.dart';
-
-import '../riverpod/guess_input.dart';
+import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_test/riverpod/misc.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "Q",
@@ -85,7 +85,11 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                     keyHeight: keySize,
                     color: Colors.blueGrey,
                     onTap: () {
-                      enter();
+                      final canInput = ref.read(canInputProvider);
+                      if (canInput) {
+                        enter();
+                        return;
+                      }
                     },
                     child: const Center(
                       child: Text(
@@ -103,7 +107,11 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                     keyHeight: keySize,
                     color: Colors.blueGrey,
                     onTap: () {
-                      ref.read(guessInputProvider.notifier).backspace();
+                      final canInput = ref.read(canInputProvider);
+                      if (canInput) {
+                        backspace();
+                        return;
+                      }
                     },
                     child: const Center(
                       child: Icon(
@@ -121,17 +129,25 @@ class _KeyboardState extends ConsumerState<Keyboard> {
   }
 
   void enter() {
-    final guessInput = ref.read(guessInputProvider);
-    print("Enter $guessInput");
+    final errorMessage = ref.read(guessesNotifierProvider.notifier).tryAddGuess();
+    print(errorMessage);
+  }
+
+  void backspace() {
+    ref.read(guessInputProvider.notifier).backspace();
   }
 
   bool handleHardwareKeyboard(KeyEvent event) {
     if (event is! KeyDownEvent) {
       return false;
     }
+    final canInput = ref.read(canInputProvider);
+    if (!canInput) {
+      return false;
+    }
     var letter = event.logicalKey.keyLabel;
     if (letter == "Backspace") {
-      ref.read(guessInputProvider.notifier).backspace();
+      backspace();
     } else if (letter == "Enter") {
       enter();
     } else {

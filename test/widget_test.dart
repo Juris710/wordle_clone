@@ -7,7 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wordle_test/ui/keyboard.dart';
-import 'package:wordle_test/riverpod/guess_input.dart';
+import 'package:wordle_test/riverpod/guess.dart';
 import 'package:collection/collection.dart';
 void main() {
   group("単体テスト", () {
