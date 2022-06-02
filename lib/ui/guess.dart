@@ -23,7 +23,7 @@ class GuessDisplayLetter extends StatelessWidget {
         color = backgroundColorBlow;
         break;
       default:
-        color = backgroundColorNone;
+        color = backgroundColorMiss;
         break;
     }
     return Padding(
@@ -56,7 +56,7 @@ class GuessDisplay extends StatelessWidget {
       children: const [
         GuessDisplayLetter(
           letter: "H",
-          hitBlowState: HitBlowState.none,
+          hitBlowState: HitBlowState.miss,
         ),
         GuessDisplayLetter(
           letter: "E",
@@ -72,7 +72,7 @@ class GuessDisplay extends StatelessWidget {
         ),
         GuessDisplayLetter(
           letter: "O",
-          hitBlowState: HitBlowState.none,
+          hitBlowState: HitBlowState.miss,
         ),
       ],
     );

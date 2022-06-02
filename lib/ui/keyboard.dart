@@ -212,7 +212,7 @@ class LetterKeyboardKey extends ConsumerWidget {
         color = backgroundColorBlow;
         break;
       default:
-        color = backgroundColorNone;
+        color = backgroundColorMiss;
         break;
     }
     return KeyboardKey(

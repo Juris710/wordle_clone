@@ -5,4 +5,4 @@ const backgroundColorHit = Colors.green;
 
 const backgroundColorBlow = Color(0xFFB8B023);
 
-const backgroundColorNone = Colors.blueGrey;
+const backgroundColorMiss = Colors.blueGrey;
