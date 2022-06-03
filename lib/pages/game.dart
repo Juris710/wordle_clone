@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/constants.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/ui/guess.dart';
 import 'package:wordle_test/ui/keyboard.dart';
@@ -11,7 +12,7 @@ class GamePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game"),
+        title: const Text(appName),
         leading: IconButton(
           onPressed: () {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/constants.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/words.dart';
 
@@ -13,7 +14,7 @@ class HomePage extends HookConsumerWidget {
     final controller = useTextEditingController(text: "0");
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text(appName),
       ),
       body: Center(
         child: SizedBox(
