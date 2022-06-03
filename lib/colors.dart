@@ -5,9 +5,9 @@ const backgroundColorHit = Colors.green;
 
 const backgroundColorBlow = Color(0xFFB8B023);
 
-const backgroundColorMiss = Colors.blueGrey;
+const backgroundColorMiss = Colors.transparent;
 
-const backgroundColorNone = Colors.transparent;
+const backgroundColorNone = Colors.blueGrey;
 
 Color colorFromHitBlowState(HitBlowState hitBlowState) {
   switch (hitBlowState) {
