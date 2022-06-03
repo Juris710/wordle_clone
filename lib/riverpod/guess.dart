@@ -166,7 +166,6 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     final answer = ref.read(answerProvider);
     assert(answer.length == guessLength);
     final guess = generateGuess(answer, input);
-    print(guess.toString());
     state = [...state, guess];
     ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
     if (guess.isClear) {
