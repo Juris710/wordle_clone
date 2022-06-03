@@ -81,7 +81,7 @@ class HomePage extends HookConsumerWidget {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("単語が存在しません。"),
+                            content: Text("単語が存在しません"),
                           ),
                         );
                       }
