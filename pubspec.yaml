@@ -37,6 +37,7 @@ dependencies:
   flutter_hooks: ^0.18.0
   hooks_riverpod: ^2.0.0-dev.9
   collection: ^1.16.0
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
