@@ -83,7 +83,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   KeyboardKey(
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
-                    color: Colors.blueGrey,
+                    color: backgroundColorNone,
                     onTap: () {
                       final canInput = ref.read(canInputProvider);
                       if (canInput) {
@@ -105,7 +105,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   KeyboardKey(
                     keyWidth: keySize * 1.5,
                     keyHeight: keySize,
-                    color: Colors.blueGrey,
+                    color: backgroundColorNone,
                     onTap: () {
                       final canInput = ref.read(canInputProvider);
                       if (canInput) {
