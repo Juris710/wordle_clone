@@ -37,7 +37,12 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
 
   GameRouterDelegate({required this.ref})
       : _navigatorKey = GlobalKey<NavigatorState>() {
-    ref.listen(answerProvider, (_, __) => notifyListeners());
+    ref.listen(answerProvider, (_, answer) {
+      if (answer != "") {
+        print("answer is $answer");
+      }
+      notifyListeners();
+    });
   }
 
   @override
