@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordle_test/constants.dart';
+import 'package:wordle_clone/constants.dart';
 
 class UnknownPage extends StatelessWidget {
   const UnknownPage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.juris710.wordle_test">
+    package="io.github.juris710.wordle_clone">
    <application
-        android:label="wordle_test"
+        android:label="wordle_clone"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

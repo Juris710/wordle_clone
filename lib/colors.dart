@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wordle_test/hit_blow_state.dart';
+import 'package:wordle_clone/hit_blow_state.dart';
 
 const backgroundColorHit = Colors.green;
 

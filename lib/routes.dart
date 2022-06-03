@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/pages/game.dart';
-import 'package:wordle_test/pages/home.dart';
-import 'package:wordle_test/pages/unknown.dart';
-import 'package:wordle_test/riverpod/misc.dart';
-import 'package:wordle_test/words.dart';
+import 'package:wordle_clone/pages/game.dart';
+import 'package:wordle_clone/pages/home.dart';
+import 'package:wordle_clone/pages/unknown.dart';
+import 'package:wordle_clone/riverpod/misc.dart';
+import 'package:wordle_clone/words.dart';
 
 const answerIdHome = -1;
 const answerIdUnknown = -2;

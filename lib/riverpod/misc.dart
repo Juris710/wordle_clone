@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_clone/riverpod/guess.dart';
 
 final answerProvider = StateProvider((ref) => "");
 

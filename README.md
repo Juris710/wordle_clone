@@ -1,6 +1,6 @@
-# wordle_test
+# wordle_clone
 
-A new Flutter project.
+Flutterで制作したWordleのクローンです。
 
 ## Getting Started
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/constants.dart';
-import 'package:wordle_test/riverpod/misc.dart';
-import 'package:wordle_test/ui/guess.dart';
-import 'package:wordle_test/ui/keyboard.dart';
+import 'package:wordle_clone/constants.dart';
+import 'package:wordle_clone/riverpod/misc.dart';
+import 'package:wordle_clone/ui/guess.dart';
+import 'package:wordle_clone/ui/keyboard.dart';
 
 class GamePage extends ConsumerWidget {
   const GamePage({Key? key}) : super(key: key);

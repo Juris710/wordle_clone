@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:wordle_test/riverpod/guess.dart';
+import 'package:wordle_clone/riverpod/guess.dart';
 
 const words = [
   "abaci",

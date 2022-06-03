@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/colors.dart';
-import 'package:wordle_test/hit_blow_state.dart';
-import 'package:wordle_test/riverpod/hit_blow_states.dart';
-import 'package:wordle_test/riverpod/guess.dart';
-import 'package:wordle_test/riverpod/misc.dart';
+import 'package:wordle_clone/colors.dart';
+import 'package:wordle_clone/hit_blow_state.dart';
+import 'package:wordle_clone/riverpod/hit_blow_states.dart';
+import 'package:wordle_clone/riverpod/guess.dart';
+import 'package:wordle_clone/riverpod/misc.dart';
 
 const List<String> keyboardFirstRowLetters = [
   "q",
