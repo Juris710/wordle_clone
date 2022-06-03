@@ -149,7 +149,7 @@ class Guess {
 }
 
 class GuessesNotifier extends StateNotifier<List<Guess>> {
-  StateNotifierProviderRef ref;
+  Ref ref;
 
   GuessesNotifier(this.ref) : super([]);
 
@@ -177,5 +177,5 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
 }
 
 final guessesNotifierProvider =
-    StateNotifierProvider<GuessesNotifier, List<Guess>>(
+    StateNotifierProvider.autoDispose<GuessesNotifier, List<Guess>>(
         (ref) => GuessesNotifier(ref));
