@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                 surface: Colors.blueGrey,
               ),
             ),
-            routerDelegate: ref.read(gameRouterDelegateProvider),
+            routerDelegate: ref.watch(gameRouterDelegateProvider),
             routeInformationParser: GameRouteInformationParser(),
           );
         },

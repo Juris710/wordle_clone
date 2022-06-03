@@ -41,9 +41,21 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
   }
 
   @override
+  GameRoutePath get currentConfiguration {
+    if (isUnknown) {
+      return GameRoutePath.unknown();
+    }
+    final answer = ref.read(answerProvider);
+    if (answer == "") {
+      return GameRoutePath.home();
+    }
+    final answerId = words.indexOf(answer);
+    return GameRoutePath.game(answerId);
+  }
+
+  @override
   Future<void> setNewRoutePath(GameRoutePath configuration) async {
     isUnknown = configuration.isUnknown;
-    print;
     final answer =
         (configuration.isGamePage) ? words[configuration.answerId] : "";
     ref.read(answerProvider.notifier).state = answer;
