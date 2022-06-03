@@ -71,14 +71,33 @@ Guess generateGuess(String answer, String input) {
   final hitBlowStates =
       List.generate(guessLength, (index) => HitBlowState.miss);
 
+  final letterHitBlowCounts = <String, int>{};
+  // hit判定
   for (int i = 0; i < guessLength; ++i) {
     final letter = input[i];
     if (answer[i] == letter) {
       hitBlowStates[i] = HitBlowState.hit;
-    } else if (answer.contains(letter)) {
-      // TODO：Blow判定法修正
-      hitBlowStates[i] = HitBlowState.blow;
+      letterHitBlowCounts[letter] = letterHitBlowCounts[letter] ?? 0 + 1;
     }
+  }
+  // blow判定
+  for (int i = 0; i < guessLength; ++i) {
+    if (hitBlowStates[i] == HitBlowState.hit) {
+      continue;
+    }
+    final letter = input[i];
+    if (!answer.contains(letter)) {
+      continue;
+    }
+    final letterCountsInAnswer = letter.allMatches(answer).length;
+    final letterCounts = letterHitBlowCounts[letter] ?? 0;
+    if (letterCountsInAnswer == letterCounts) {
+      continue;
+    }
+    assert(letterCountsInAnswer > letterCounts);
+
+    hitBlowStates[i] = HitBlowState.blow;
+    letterHitBlowCounts[letter] = letterCounts + 1;
   }
 
   return Guess(letters, hitBlowStates);
