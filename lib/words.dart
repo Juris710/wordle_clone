@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:wordle_test/riverpod/guess.dart';
+
 const words = [
   "abaci",
   "aback",
@@ -3164,3 +3168,9 @@ const words = [
   "zloty",
   "zonal"
 ];
+
+String generateAnswer() {
+  final answer = words[Random().nextInt(words.length)];
+  assert(answer.length == guessLength);
+  return answer;
+}

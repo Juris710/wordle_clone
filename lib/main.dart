@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_test/pages/home.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/ui/guess.dart';
 import 'package:wordle_test/ui/keyboard.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
                 seedColor: Colors.blueGrey,
                 brightness: Brightness.dark,
                 surface: Colors.blueGrey)),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const HomePage(),
       ),
     );
   }
