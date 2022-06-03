@@ -111,7 +111,6 @@ class GameRouteInformationParser extends RouteInformationParser<GameRoutePath> {
 
   @override
   RouteInformation restoreRouteInformation(GameRoutePath configuration) {
-    print(configuration);
     if (configuration.isUnknown) {
       return const RouteInformation(location: "/404");
     }
