@@ -16,10 +16,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blueGrey,
-                brightness: Brightness.dark,
-                surface: Colors.blueGrey)),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.blueGrey,
+            brightness: Brightness.dark,
+            surface: Colors.blueGrey,
+          ),
+        ),
         home: const HomePage(),
       ),
     );
