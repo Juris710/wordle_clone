@@ -10,6 +10,15 @@ class GamePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Game"),
+        leading:
+          IconButton(
+            onPressed: () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+
       ),
       body: Center(
         child: Column(
