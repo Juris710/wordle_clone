@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/pages/home.dart';
+import 'package:wordle_test/routes.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+final gameRouterDelegateProvider =
+    Provider((ref) => GameRouterDelegate(ref: ref));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,16 +16,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blueGrey,
-            brightness: Brightness.dark,
-            surface: Colors.blueGrey,
-          ),
-        ),
-        home: const HomePage(),
+      child: Consumer(
+        builder: (context, ref, child) {
+          return MaterialApp.router(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.blueGrey,
+                brightness: Brightness.dark,
+                surface: Colors.blueGrey,
+              ),
+            ),
+            routerDelegate: ref.read(gameRouterDelegateProvider),
+            routeInformationParser: GameRouteInformationParser(),
+          );
+        },
       ),
     );
   }

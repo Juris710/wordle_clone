@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_test/pages/game.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/words.dart';
 
@@ -26,11 +25,6 @@ class HomePage extends HookConsumerWidget {
               ElevatedButton(
                 onPressed: () {
                   ref.read(answerProvider.notifier).state = generateAnswer();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const GamePage(),
-                    ),
-                  );
                 },
                 child: const Text("ランダムな単語で開始"),
               ),
@@ -51,8 +45,6 @@ class HomePage extends HookConsumerWidget {
                   if (0 <= id && id < words.length) {
                     final answer = words[id];
                     ref.read(answerProvider.notifier).state = answer;
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const GamePage()));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(

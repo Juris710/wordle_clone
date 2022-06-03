@@ -21,7 +21,7 @@ class GamePage extends HookConsumerWidget {
         leading: IconButton(
           onPressed: () {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            Navigator.of(context).pop();
+            ref.read(answerProvider.notifier).state = "";
           },
           icon: const Icon(Icons.arrow_back),
         ),
