@@ -17,9 +17,8 @@ class GamePage extends ConsumerWidget {
           onPressed: () async {
             final isGameClear = ref.read(isGameClearProvider);
             final isGameOver = ref.read(isGameOverProvider);
-            final scaffoldMessenger = ScaffoldMessenger.of(context);
             if (isGameClear || isGameOver) {
-              scaffoldMessenger.removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ref.read(answerProvider.notifier).state = "";
               return;
             }
@@ -39,7 +38,7 @@ class GamePage extends ConsumerWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.of(context).pop();
-                          scaffoldMessenger.removeCurrentSnackBar();
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           ref.read(answerProvider.notifier).state = "";
                         },
                         child: const Text("終了"),
