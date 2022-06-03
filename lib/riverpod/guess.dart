@@ -157,11 +157,11 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     final input = ref.read(guessInputProvider);
 
     if (input.length < guessLength) {
-      return "Not enough letters";
+      return "文字数が足りません";
     }
     assert(input.length == guessLength);
     if (!words.contains(input.toLowerCase())) {
-      return "Not in word list";
+      return "辞書に存在しない単語です";
     }
     final answer = ref.read(answerProvider);
     assert(answer.length == guessLength);
