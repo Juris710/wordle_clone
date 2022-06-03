@@ -27,7 +27,7 @@ class HomePage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Worldle Clone",
+                    appName,
                     style: Theme.of(context).textTheme.headline2,
                   ),
                   const SizedBox(height: 32),

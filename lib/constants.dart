@@ -1,1 +1,1 @@
-const String appName = "Worlde Clone";
+const String appName = "Wordle Clone";
