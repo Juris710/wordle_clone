@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/pages/game.dart';
@@ -101,17 +103,16 @@ class GameRouteInformationParser extends RouteInformationParser<GameRoutePath> {
     if (uri.pathSegments.isEmpty) {
       return GameRoutePath.home();
     }
-    if (uri.pathSegments.length == 2) {
-      if (uri.pathSegments[0] != "game") {
-        return GameRoutePath.unknown();
-      }
-      final answerId = int.tryParse(uri.pathSegments[1]);
-      if (answerId == null) {
-        return GameRoutePath.unknown();
-      }
-      return GameRoutePath.game(answerId);
+    if (uri.pathSegments[0] != "game") {
+      return GameRoutePath.unknown();
     }
-    return GameRoutePath.unknown();
+    if (uri.pathSegments.length == 2) {
+      final answerId = int.tryParse(uri.pathSegments[1]);
+      if (answerId != null) {
+        return GameRoutePath.game(answerId);
+      }
+    }
+    return GameRoutePath.game(Random().nextInt(words.length));
   }
 
   @override
