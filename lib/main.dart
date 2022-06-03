@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/routes.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: Consumer(
         builder: (context, ref, child) {
           return MaterialApp.router(
-            title: 'Flutter Demo',
+            title: appName,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: Colors.blueGrey,
