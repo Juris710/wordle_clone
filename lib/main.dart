@@ -6,8 +6,6 @@ void main() {
   runApp(const MyApp());
 }
 
-final gameRouterDelegateProvider =
-    Provider((ref) => GameRouterDelegate(ref: ref));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
                 surface: Colors.blueGrey,
               ),
             ),
-            routerDelegate: ref.watch(gameRouterDelegateProvider),
+            routerDelegate: GameRouterDelegate(ref: ref),
             routeInformationParser: GameRouteInformationParser(),
           );
         },

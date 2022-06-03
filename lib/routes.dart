@@ -31,7 +31,7 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<GameRoutePath> {
   final GlobalKey<NavigatorState> _navigatorKey;
 
-  final Ref ref;
+  final WidgetRef ref;
 
   bool isUnknown = false;
 
