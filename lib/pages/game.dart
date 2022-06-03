@@ -14,9 +14,39 @@ class GamePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(appName),
         leading: IconButton(
-          onPressed: () {
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            ref.read(answerProvider.notifier).state = "";
+          onPressed: () async {
+            final isGameClear = ref.read(isGameClearProvider);
+            final isGameOver = ref.read(isGameOverProvider);
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
+            if (isGameClear || isGameOver) {
+              scaffoldMessenger.removeCurrentSnackBar();
+              ref.read(answerProvider.notifier).state = "";
+              return;
+            }
+            await showDialog(
+                context: context,
+                builder: (_) {
+                  return AlertDialog(
+                    title: const Text("確認"),
+                    content: const Text("ゲームを終了してもよろしいですか？\nゲームの状態は保存されません。"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("キャンセル"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          scaffoldMessenger.removeCurrentSnackBar();
+                          ref.read(answerProvider.notifier).state = "";
+                        },
+                        child: const Text("終了"),
+                      ),
+                    ],
+                  );
+                });
           },
           icon: const Icon(Icons.arrow_back),
         ),
