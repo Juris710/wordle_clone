@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_test/pages/game.dart';
 import 'package:wordle_test/pages/home.dart';
+import 'package:wordle_test/pages/unknown.dart';
 import 'package:wordle_test/riverpod/misc.dart';
 import 'package:wordle_test/words.dart';
 
@@ -75,16 +76,15 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
         const MaterialPage(child: HomePage()),
         if (isUnknown)
           const MaterialPage(
-            child: Scaffold(
-              body: Center(
-                child: Text("404"),
-              ),
-            ),
+            child: UnknownPage(),
           ),
         if (!isUnknown && answer != "") const MaterialPage(child: GamePage()),
       ],
       onPopPage: (route, result) {
-        return (route.didPop(result));
+        isUnknown = false;
+        final didPop = route.didPop(result);
+        notifyListeners();
+        return didPop;
       },
     );
   }
