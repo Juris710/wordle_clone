@@ -22,7 +22,6 @@ class HomePage extends HookConsumerWidget {
               showLicensePage(context: context);
             },
             icon: const Icon(Icons.info),
-            // child: const Text("Licenses"),
           ),
         ],
       ),
