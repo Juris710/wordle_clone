@@ -4,13 +4,15 @@ import 'package:wordle_clone/hit_blow_state.dart';
 class HitBlowStatesNotifier extends StateNotifier<Map<String, HitBlowState>> {
   HitBlowStatesNotifier() : super({});
 
+  Map<String, HitBlowState> queue = {};
+
   void clear() {
     state = {};
   }
 
-  void update(Map<String, HitBlowState> newEntries) {
+  void doUpdate() {
     final newState = {...state};
-    newEntries.forEach((letter, hitBlowState) {
+    queue.forEach((letter, hitBlowState) {
       switch (hitBlowState) {
         case HitBlowState.hit:
           newState[letter] = HitBlowState.hit;
@@ -30,7 +32,12 @@ class HitBlowStatesNotifier extends StateNotifier<Map<String, HitBlowState>> {
           break;
       }
     });
+    queue.clear();
     state = newState;
+  }
+
+  void addStates(Map<String, HitBlowState> newEntries) {
+    queue = {...queue, ...newEntries};
   }
 }
 

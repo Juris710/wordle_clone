@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/hit_blow_state.dart';
 import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
@@ -182,13 +181,7 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     assert(answer.length == guessLength);
     final guess = generateGuess(answer, input);
     state = [...state, guess];
-    Future.delayed(animationDuration, () {
-      ref.read(isAnimationPlayingProvider.notifier).state = false;
-      ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
-      if (guess.isClear) {
-        ref.read(isGameClearProvider.notifier).state = true;
-      }
-    });
+    ref.read(hitBlowStatesProvider.notifier).addStates(guess.toMap());
     return "";
   }
 }
