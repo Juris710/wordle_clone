@@ -5,10 +5,7 @@ final answerProvider = StateProvider((ref) => "");
 
 final isAnimationPlayingProvider = StateProvider((ref) => false);
 
-final isGameOverProvider = Provider.autoDispose((ref) {
-  final guesses = ref.watch(guessesNotifierProvider);
-  return (guesses.length == maxGuessTrialCount);
-});
+final isGameOverProvider = StateProvider.autoDispose((ref) => false);
 
 final isGameClearProvider = StateProvider.autoDispose((ref) => false);
 

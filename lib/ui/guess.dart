@@ -71,6 +71,9 @@ class GuessDisplay extends HookConsumerWidget {
         if (next.isClear) {
           ref.read(isGameClearProvider.notifier).state = true;
         }
+        if(ref.read(guessesNotifierProvider).length == maxGuessTrialCount){
+          ref.read(isGameOverProvider.notifier).state = true;
+        }
       });
     });
     final guess = ref.watch(guessDisplayContentProvider(guessIndex));
