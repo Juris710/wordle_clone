@@ -3,8 +3,7 @@ import 'package:wordle_clone/riverpod/guess.dart';
 
 final answerProvider = StateProvider((ref) => "");
 
-// TODO：アニメーション実装後、前後で値を変える
-final isAnimationPlayingProvider = StateProvider.autoDispose((ref) => false);
+final isAnimationPlayingProvider = StateProvider((ref) => false);
 
 final isGameOverProvider = Provider.autoDispose((ref) {
   final guesses = ref.watch(guessesNotifierProvider);
