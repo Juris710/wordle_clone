@@ -89,7 +89,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   KeyboardKey(
-                    keyWidth: keyWidth* 1.5,
+                    keyWidth: keyWidth * 1.5,
                     keyHeight: keyHeight,
                     color: backgroundColorNone,
                     smallPadding: smallPadding,
@@ -114,7 +114,7 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                       smallPadding: smallPadding,
                     ),
                   KeyboardKey(
-                    keyWidth: keyWidth* 1.5,
+                    keyWidth: keyWidth * 1.5,
                     keyHeight: keyHeight,
                     color: backgroundColorNone,
                     smallPadding: smallPadding,
