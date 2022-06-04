@@ -106,10 +106,12 @@ Guess generateGuess(String answer, String input) {
 class Guess {
   final List<String> letters;
   final List<HitBlowState> hitBlowStates;
+  final bool isValid;
 
   Guess(this.letters, this.hitBlowStates)
       : assert(letters.length == guessLength),
-        assert(hitBlowStates.length == guessLength);
+        assert(hitBlowStates.length == guessLength),
+        isValid = true;
 
   Guess.fromInput(String input)
       : assert(input.length <= guessLength),
@@ -120,14 +122,16 @@ class Guess {
         hitBlowStates = List.generate(
           guessLength,
           (index) => HitBlowState.none,
-        );
+        ),
+        isValid = false;
 
   Guess.empty()
       : letters = List.generate(guessLength, (index) => ""),
         hitBlowStates = List.generate(
           guessLength,
           (index) => HitBlowState.none,
-        );
+        ),
+        isValid = false;
 
   String letterAt(int index) {
     assert(0 <= index && index < guessLength);
@@ -149,6 +153,7 @@ class Guess {
   }
 
   Map<String, HitBlowState> toMap() {
+    assert(isValid);
     final map = <String, HitBlowState>{};
     for (int i = 0; i < guessLength; ++i) {
       map[letterAt(i)] = hitBlowStateAt(i);
