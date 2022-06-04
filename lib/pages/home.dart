@@ -30,7 +30,7 @@ class HomePage extends HookConsumerWidget {
           padding: const EdgeInsets.all(16.0),
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -57,28 +57,43 @@ class HomePage extends HookConsumerWidget {
                     "単語を指定してプレイ",
                     style: Theme.of(context).textTheme.headline4,
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: "単語の番号",
-                        hintText: "0以上${words.length - 1}以下の数字を入力"),
-                    validator: (value) {
-                      final id = int.tryParse(controller.text);
-                      if (id == null) {
-                        return "数字を入力してください";
-                      }
-                      if (id < 0) {
-                        return "0以上の数字を入力してください";
-                      }
-                      if (id >= words.length) {
-                        return "${words.length - 1}以下の数字を入力してください。";
-                      }
-                      return null;
-                    },
-                    textAlign: TextAlign.center,
-                    controller: controller,
-                    keyboardType: TextInputType.number,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  const SizedBox(height: 16),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("上の「プレイ」ボタンを押すと、正解の単語がランダムで決定されます。"),
+                  ),
+                  const SizedBox(height: 8),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                        "下のフィールドに番号を入力して「単語を指定してプレイ」ボタンを押すと、正解の単語を指定することができます。"),
+                  ),
+                  const SizedBox(height: 16),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          labelText: "単語の番号",
+                          hintText: "0以上${words.length - 1}以下の数字を入力"),
+                      validator: (value) {
+                        final id = int.tryParse(controller.text);
+                        if (id == null) {
+                          return "数字を入力してください";
+                        }
+                        if (id < 0) {
+                          return "0以上の数字を入力してください";
+                        }
+                        if (id >= words.length) {
+                          return "${words.length - 1}以下の数字を入力してください。";
+                        }
+                        return null;
+                      },
+                      textAlign: TextAlign.center,
+                      controller: controller,
+                      keyboardType: TextInputType.number,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
                   ),
                   const SizedBox(height: 8),
                   ElevatedButton(
