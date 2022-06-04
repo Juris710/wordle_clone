@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_clone/pages/game.dart';
@@ -32,14 +33,11 @@ class GameRoutePath {
 
 class GameRouterDelegate extends RouterDelegate<GameRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<GameRoutePath> {
-  final GlobalKey<NavigatorState> _navigatorKey;
-
   final WidgetRef ref;
 
   bool isUnknown = false;
 
-  GameRouterDelegate({required this.ref})
-      : _navigatorKey = GlobalKey<NavigatorState>() {
+  GameRouterDelegate({required this.ref}) {
     ref.listen(answerProvider, (_, answer) {
       if (answer != "") {
         print("answer is $answer");
@@ -62,37 +60,40 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(GameRoutePath configuration) async {
+  Future<void> setNewRoutePath(GameRoutePath configuration) {
     isUnknown = configuration.isUnknown;
     final answer =
         (configuration.isGamePage) ? words[configuration.answerId] : "";
     ref.read(answerProvider.notifier).state = answer;
+    return SynchronousFuture(null);
   }
 
   @override
   Widget build(BuildContext context) {
     final answer = ref.watch(answerProvider);
     return Navigator(
-      key: _navigatorKey,
+      key: navigatorKey,
       pages: [
-        const MaterialPage(child: HomePage()),
+        const MaterialPage(key: ValueKey("Home"), child: HomePage()),
         if (isUnknown)
           const MaterialPage(
+            key: ValueKey("Unknown"),
             child: UnknownPage(),
           ),
-        if (!isUnknown && answer != "") const MaterialPage(child: GamePage()),
+        if (!isUnknown && answer != "")
+          MaterialPage(key: ValueKey("game-$answer"), child: const GamePage()),
       ],
       onPopPage: (route, result) {
+        if (!route.didPop(result)) return false;
         isUnknown = false;
-        final didPop = route.didPop(result);
         notifyListeners();
-        return didPop;
+        return true;
       },
     );
   }
 
   @override
-  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
 
 class GameRouteInformationParser extends RouteInformationParser<GameRoutePath> {
