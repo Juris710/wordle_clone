@@ -211,14 +211,14 @@ class KeyboardKey extends StatelessWidget {
     return SizedBox(
       width: keyWidth,
       height: keyHeight,
-      child: Padding(
-        padding: EdgeInsets.all(smallPadding ? 2 : 8),
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueGrey, width: 3),
-          ),
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Padding(
+          padding: EdgeInsets.all(smallPadding ? 2 : 8),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueGrey, width: 3),
+            ),
             child: GestureDetector(
               onTap: onTap,
               child: Container(
