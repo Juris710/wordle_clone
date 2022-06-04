@@ -5,7 +5,7 @@ import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/routes.dart';
 
 void main() {
-  GoogleFonts.config.allowRuntimeFetching = true;
+  GoogleFonts.config.allowRuntimeFetching = false;
   runApp(const MyApp());
 }
 
