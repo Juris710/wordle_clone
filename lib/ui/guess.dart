@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_clone/colors.dart';
-import 'package:wordle_clone/hit_blow_state.dart';
 import 'package:wordle_clone/riverpod/guess.dart';
 import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
@@ -19,18 +18,17 @@ class GuessDisplay extends HookConsumerWidget {
     final controller =
         useAnimationController(duration: const Duration(seconds: 3));
     ref.listen<Guess>(guessDisplayContentProvider(guessIndex), (prev, next) {
-      if (next
-          .toGuessLetterList()
-          .every((element) => element.hitBlowState != HitBlowState.none)) {
-        controller.forward().then((value) {
-          ref.read(isAnimationPlayingProvider.notifier).state = false;
-          ref.read(hitBlowStatesProvider.notifier).doUpdate();
-
-          if (next.isClear) {
-            ref.read(isGameClearProvider.notifier).state = true;
-          }
-        });
+      if (next.isEmpty) {
+        return;
       }
+      controller.forward().then((value) {
+        ref.read(isAnimationPlayingProvider.notifier).state = false;
+        ref.read(hitBlowStatesProvider.notifier).doUpdate();
+
+        if (next.isClear) {
+          ref.read(isGameClearProvider.notifier).state = true;
+        }
+      });
     });
     final guess = ref.watch(guessDisplayContentProvider(guessIndex));
     return Row(

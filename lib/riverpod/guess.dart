@@ -159,6 +159,14 @@ class Guess {
     }
     return true;
   }
+  bool get isEmpty{
+    for (int i = 0; i < guessLength; ++i) {
+      if (hitBlowStateAt(i) != HitBlowState.none) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 class GuessesNotifier extends StateNotifier<List<Guess>> {
