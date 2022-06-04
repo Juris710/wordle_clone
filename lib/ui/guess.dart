@@ -1,24 +1,75 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_clone/colors.dart';
-import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/hit_blow_state.dart';
 import 'package:wordle_clone/riverpod/guess.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 
-class GuessDisplayLetter extends StatelessWidget {
+class GuessDisplay extends HookConsumerWidget {
+  final int guessIndex;
+
+  const GuessDisplay(this.guessIndex, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller =
+        useAnimationController(duration: const Duration(seconds: 3));
+    ref.listen<Guess>(guessDisplayContentProvider(guessIndex), (prev, next) {
+      if (next
+          .toGuessLetterList()
+          .every((element) => element.hitBlowState != HitBlowState.none)) {
+        controller.forward();
+      }
+      // if(next?.toGuessLetterList())
+    });
+    final guess = ref.watch(guessDisplayContentProvider(guessIndex));
+    // if (guessIndex == 0)
+    //   for (int i = 0; i < guessLength; ++i)
+    //     print(
+    //         "${i / (guessLength + 1)} ${(i + 2) / (guessLength + 1)} ${(i + 2) / (guessLength + 1) - i / (guessLength + 1)}");
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (int i = 0; i < guessLength; ++i)
+          GuessDisplayLetter(
+            letter: guess.letterAt(i),
+            color: colorFromHitBlowState(guess.hitBlowStateAt(i)),
+            animation: Tween(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                parent: controller,
+                curve: Interval(
+                  i / (guessLength + 3),
+                  (i + 4) / (guessLength + 3),
+                  curve: Curves.easeInOutSine
+                  ,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class GuessDisplayLetter extends AnimatedWidget {
   final String letter;
-  final HitBlowState hitBlowState;
+  final Color color;
 
   const GuessDisplayLetter({
     Key? key,
+    required Animation<double> animation,
     required this.letter,
-    required this.hitBlowState,
-  }) : super(key: key);
+    required this.color,
+  }) : super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final color = colorFromHitBlowState(hitBlowState);
+    final animation = listenable as Animation<double>;
+    // if(letter == "f" && animation.value != 0)
+    //   print(1 - (animation.value - 0.5).abs() * 2);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
@@ -27,50 +78,20 @@ class GuessDisplayLetter extends StatelessWidget {
         ),
         width: 60,
         height: 60,
-        child: AnimatedContainer(
-          duration: animationDuration,
-          color: color,
-          child: Center(
-            child: Text(letter.toUpperCase()),
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            // ..rotateX(animation.value * pi / 2),
+            ..rotateX((1 - (animation.value - 0.5).abs() * 2) * pi / 2),
+          child: Container(
+            color: animation.value < 0.5 ? backgroundColorNone : color,
+            child: Center(
+              child: Text(letter.toUpperCase()),
+            ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class GuessDisplay extends ConsumerWidget {
-  final int guessIndex;
-
-  const GuessDisplay(this.guessIndex, {Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final guesses = ref.watch(guessesNotifierProvider);
-    final input = ref.watch(guessInputProvider);
-    final List<String> letters = List.generate(guessLength, (index) => "");
-    final List<HitBlowState> hitBlowStates =
-        List.generate(guessLength, (index) => HitBlowState.none);
-    if (guesses.length > guessIndex) {
-      final guess = guesses[guessIndex];
-      for (int i = 0; i < guessLength; ++i) {
-        letters[i] = guess.letterAt(i);
-        hitBlowStates[i] = guess.hitBlowStateAt(i);
-      }
-    } else if (guesses.length == guessIndex) {
-      for (int i = 0; i < input.length; ++i) {
-        letters[i] = input[i];
-      }
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (int i = 0; i < guessLength; ++i)
-          GuessDisplayLetter(
-            letter: letters[i],
-            hitBlowState: hitBlowStates[i],
-          ),
-      ],
     );
   }
 }
