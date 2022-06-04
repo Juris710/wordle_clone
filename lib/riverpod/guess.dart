@@ -122,18 +122,6 @@ class Guess {
     return hitBlowStates[index];
   }
 
-  GuessLetter guessLetterAt(int index) {
-    assert(0 <= index && index < guessLength);
-    return GuessLetter(
-      hitBlowState: hitBlowStateAt(index),
-      letter: letterAt(index),
-    );
-  }
-
-  List<GuessLetter> toGuessLetterList() {
-    return List.generate(guessLength, (index) => guessLetterAt(index));
-  }
-
   @override
   String toString() {
     String result = "";
@@ -198,16 +186,6 @@ final guessesNotifierProvider =
     StateNotifierProvider.autoDispose<GuessesNotifier, List<Guess>>(
         (ref) => GuessesNotifier(ref));
 
-class GuessLetter {
-  final HitBlowState hitBlowState;
-  final String letter;
-
-  GuessLetter({
-    required this.hitBlowState,
-    required this.letter,
-  });
-}
-
 final guessDisplayContentProvider = Provider.autoDispose.family<Guess, int>(
   (ref, guessIndex) {
     final guesses = ref.watch(guessesNotifierProvider);
@@ -223,9 +201,6 @@ final guessDisplayContentProvider = Provider.autoDispose.family<Guess, int>(
                 inputGuess.length > letterIndex ? inputGuess[letterIndex] : ""),
         List.generate(guessLength, (index) => HitBlowState.none),
       );
-      // final inputLength = inputGuess.length;
-      // final letter = inputGuess.length > letterIndex ? inputGuess[letterIndex] : "";
-      // return GuessLetter(hitBlowState: HitBlowState.none, letter: letter);
     }
     return Guess(
       List.generate(guessLength, (index) => ""),
