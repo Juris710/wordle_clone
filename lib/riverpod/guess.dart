@@ -4,7 +4,6 @@ import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 import 'package:wordle_clone/words.dart';
 
-
 const List<String> lettersInGuess = [
   "a",
   "b",
@@ -112,6 +111,24 @@ class Guess {
       : assert(letters.length == guessLength),
         assert(hitBlowStates.length == guessLength);
 
+  Guess.fromInput(String input)
+      : assert(input.length <= guessLength),
+        letters = List.generate(
+          guessLength,
+          (index) => input.length > index ? input[index] : "",
+        ),
+        hitBlowStates = List.generate(
+          guessLength,
+          (index) => HitBlowState.none,
+        );
+
+  Guess.empty()
+      : letters = List.generate(guessLength, (index) => ""),
+        hitBlowStates = List.generate(
+          guessLength,
+          (index) => HitBlowState.none,
+        );
+
   String letterAt(int index) {
     assert(0 <= index && index < guessLength);
     return letters[index];
@@ -147,7 +164,8 @@ class Guess {
     }
     return true;
   }
-  bool get isEmpty{
+
+  bool get isEmpty {
     for (int i = 0; i < guessLength; ++i) {
       if (hitBlowStateAt(i) != HitBlowState.none) {
         return false;
@@ -194,17 +212,8 @@ final guessDisplayContentProvider = Provider.autoDispose.family<Guess, int>(
       return guesses[guessIndex];
     }
     if (guesses.length == guessIndex) {
-      return Guess(
-        List.generate(
-            guessLength,
-            (letterIndex) =>
-                inputGuess.length > letterIndex ? inputGuess[letterIndex] : ""),
-        List.generate(guessLength, (index) => HitBlowState.none),
-      );
+      return Guess.fromInput(inputGuess);
     }
-    return Guess(
-      List.generate(guessLength, (index) => ""),
-      List.generate(guessLength, (index) => HitBlowState.none),
-    );
+    return Guess.empty();
   },
 );
