@@ -1,10 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/hit_blow_state.dart';
 import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 import 'package:wordle_clone/words.dart';
 
-import '../constants.dart';
 
 const List<String> lettersInGuess = [
   "a",

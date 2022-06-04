@@ -23,13 +23,8 @@ class GuessDisplay extends HookConsumerWidget {
           .every((element) => element.hitBlowState != HitBlowState.none)) {
         controller.forward();
       }
-      // if(next?.toGuessLetterList())
     });
     final guess = ref.watch(guessDisplayContentProvider(guessIndex));
-    // if (guessIndex == 0)
-    //   for (int i = 0; i < guessLength; ++i)
-    //     print(
-    //         "${i / (guessLength + 1)} ${(i + 2) / (guessLength + 1)} ${(i + 2) / (guessLength + 1) - i / (guessLength + 1)}");
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -43,8 +38,7 @@ class GuessDisplay extends HookConsumerWidget {
                 curve: Interval(
                   i / (guessLength + 3),
                   (i + 4) / (guessLength + 3),
-                  curve: Curves.easeInOutSine
-                  ,
+                  curve: Curves.easeInOutSine,
                 ),
               ),
             ),
@@ -68,8 +62,6 @@ class GuessDisplayLetter extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     final animation = listenable as Animation<double>;
-    // if(letter == "f" && animation.value != 0)
-    //   print(1 - (animation.value - 0.5).abs() * 2);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
@@ -82,7 +74,6 @@ class GuessDisplayLetter extends AnimatedWidget {
           alignment: Alignment.center,
           transform: Matrix4.identity()
             ..setEntry(3, 2, 0.001)
-            // ..rotateX(animation.value * pi / 2),
             ..rotateX((1 - (animation.value - 0.5).abs() * 2) * pi / 2),
           child: Container(
             color: animation.value < 0.5 ? backgroundColorNone : color,
