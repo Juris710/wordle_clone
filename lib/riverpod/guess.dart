@@ -4,6 +4,8 @@ import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 import 'package:wordle_clone/words.dart';
 
+import '../constants.dart';
+
 const List<String> lettersInGuess = [
   "a",
   "b",
@@ -163,14 +165,19 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     if (!words.contains(input.toLowerCase())) {
       return "辞書に存在しない単語です";
     }
+    // FIXME：アニメーション再生中も入力できる
+    ref.read(isAnimationPlayingProvider.notifier).state = true;
     final answer = ref.read(answerProvider);
     assert(answer.length == guessLength);
     final guess = generateGuess(answer, input);
     state = [...state, guess];
-    ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
-    if (guess.isClear) {
-      ref.read(isGameClearProvider.notifier).state = true;
-    }
+    Future.delayed(animationDuration, () {
+      ref.read(isAnimationPlayingProvider.notifier).state = false;
+      ref.read(hitBlowStatesProvider.notifier).update(guess.toMap());
+      if (guess.isClear) {
+        ref.read(isGameClearProvider.notifier).state = true;
+      }
+    });
     return "";
   }
 }

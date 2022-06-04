@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_clone/colors.dart';
+import 'package:wordle_clone/constants.dart';
 import 'package:wordle_clone/hit_blow_state.dart';
 import 'package:wordle_clone/riverpod/guess.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
@@ -27,7 +28,7 @@ class GuessDisplayLetter extends StatelessWidget {
         width: 60,
         height: 60,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: animationDuration,
           color: color,
           child: Center(
             child: Text(letter.toUpperCase()),
