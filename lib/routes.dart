@@ -41,6 +41,7 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
     ref.listen(answerProvider, (_, answer) {
       if (answer != "") {
         print("answer is $answer");
+        ref.read(isAnimationPlayingProvider.notifier).state = false;
       }
       notifyListeners();
     });
