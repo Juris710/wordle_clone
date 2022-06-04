@@ -15,6 +15,16 @@ class HomePage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appName),
+        actions: [
+          IconButton(
+            tooltip: "Licenses",
+            onPressed: () {
+              showLicensePage(context: context);
+            },
+            icon: const Icon(Icons.info),
+            // child: const Text("Licenses"),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -87,13 +97,6 @@ class HomePage extends HookConsumerWidget {
                       }
                     },
                     child: const Text("単語を指定してプレイ"),
-                  ),
-                  const SizedBox(height: 256),
-                  ElevatedButton(
-                    onPressed: () {
-                      showLicensePage(context: context);
-                    },
-                    child: const Text("Licenses"),
                   ),
                 ],
               ),
