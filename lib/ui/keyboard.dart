@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -55,15 +57,19 @@ class _KeyboardState extends ConsumerState<Keyboard> {
       constraints: const BoxConstraints(maxWidth: 800),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          var keySize = constraints.maxWidth / 10;
+          final smallPadding = constraints.maxWidth < 600;
+          final keyWidth = constraints.maxWidth / 10;
+          final keyHeight = max(keyWidth, 50.0);
           return Column(
             children: [
               Row(
                 children: [
                   for (var keyName in keyboardFirstRowLetters)
                     LetterKeyboardKey(
-                      keySize: keySize,
+                      keyWidth: keyWidth,
+                      keyHeight: keyHeight,
                       keyName: keyName,
+                      smallPadding: smallPadding,
                     ),
                 ],
               ),
@@ -72,8 +78,10 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                 children: [
                   for (var keyName in keyboardSecondRowLetters)
                     LetterKeyboardKey(
-                      keySize: keySize,
+                      keyWidth: keyWidth,
+                      keyHeight: keyHeight,
                       keyName: keyName,
+                      smallPadding: smallPadding,
                     ),
                 ],
               ),
@@ -81,9 +89,10 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   KeyboardKey(
-                    keyWidth: keySize * 1.5,
-                    keyHeight: keySize,
+                    keyWidth: keyWidth* 1.5,
+                    keyHeight: keyHeight,
                     color: backgroundColorNone,
+                    smallPadding: smallPadding,
                     onTap: () {
                       final canInput = ref.read(canInputProvider);
                       if (canInput) {
@@ -99,13 +108,16 @@ class _KeyboardState extends ConsumerState<Keyboard> {
                   ),
                   for (var keyName in keyboardThirdRowLetters)
                     LetterKeyboardKey(
-                      keySize: keySize,
+                      keyWidth: keyWidth,
+                      keyHeight: keyHeight,
                       keyName: keyName,
+                      smallPadding: smallPadding,
                     ),
                   KeyboardKey(
-                    keyWidth: keySize * 1.5,
-                    keyHeight: keySize,
+                    keyWidth: keyWidth* 1.5,
+                    keyHeight: keyHeight,
                     color: backgroundColorNone,
+                    smallPadding: smallPadding,
                     onTap: () {
                       final canInput = ref.read(canInputProvider);
                       if (canInput) {
@@ -182,6 +194,7 @@ class KeyboardKey extends StatelessWidget {
   final Color color;
   final Widget child;
   final GestureTapCallback onTap;
+  final bool smallPadding;
 
   const KeyboardKey(
       {Key? key,
@@ -189,7 +202,8 @@ class KeyboardKey extends StatelessWidget {
       required this.keyHeight,
       required this.color,
       required this.child,
-      required this.onTap})
+      required this.onTap,
+      required this.smallPadding})
       : super(key: key);
 
   @override
@@ -198,7 +212,7 @@ class KeyboardKey extends StatelessWidget {
       width: keyWidth,
       height: keyHeight,
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(smallPadding ? 2 : 8),
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blueGrey, width: 3),
@@ -221,11 +235,17 @@ class KeyboardKey extends StatelessWidget {
 
 class LetterKeyboardKey extends ConsumerWidget {
   final String keyName;
-  final double keySize;
+  final double keyWidth;
+  final double keyHeight;
+  final bool smallPadding;
 
-  const LetterKeyboardKey(
-      {Key? key, required this.keySize, required this.keyName})
-      : super(key: key);
+  const LetterKeyboardKey({
+    Key? key,
+    required this.keyWidth,
+    required this.keyHeight,
+    required this.keyName,
+    required this.smallPadding,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -233,14 +253,15 @@ class LetterKeyboardKey extends ConsumerWidget {
         ref.watch(hitBlowStatesProvider.select((value) => value[keyName]));
     final color = colorFromHitBlowState(hitBlowState ?? HitBlowState.none);
     return KeyboardKey(
+      smallPadding: smallPadding,
       onTap: () {
         final canInput = ref.read(canInputProvider);
         if (canInput) {
           ref.read(guessInputProvider.notifier).inputLetter(keyName);
         }
       },
-      keyWidth: keySize,
-      keyHeight: keySize,
+      keyWidth: keyWidth,
+      keyHeight: keyHeight,
       color: color,
       child: Center(
         child: Text(

@@ -11,12 +11,14 @@ import 'package:wordle_clone/riverpod/misc.dart';
 class GuessDisplayLetter extends AnimatedWidget {
   final String letter;
   final Color color;
+  final double size;
 
   const GuessDisplayLetter({
     Key? key,
     required Animation<double> animation,
     required this.letter,
     required this.color,
+    required this.size,
   }) : super(key: key, listenable: animation);
 
   @override
@@ -28,8 +30,8 @@ class GuessDisplayLetter extends AnimatedWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.blueGrey, width: 3),
         ),
-        width: 60,
-        height: 60,
+        width: size - 16,
+        height: size - 16,
         child: Transform(
           alignment: Alignment.center,
           transform: Matrix4.identity()
@@ -49,8 +51,10 @@ class GuessDisplayLetter extends AnimatedWidget {
 
 class GuessDisplay extends HookConsumerWidget {
   final int guessIndex;
+  final double guessLetterSize;
 
-  const GuessDisplay(this.guessIndex, {Key? key}) : super(key: key);
+  const GuessDisplay(this.guessIndex, {Key? key, required this.guessLetterSize})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,6 +81,7 @@ class GuessDisplay extends HookConsumerWidget {
           GuessDisplayLetter(
             letter: guess.letterAt(i),
             color: colorFromHitBlowState(guess.hitBlowStateAt(i)),
+            size: guessLetterSize,
             animation: Tween(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                 parent: controller,
@@ -111,10 +116,16 @@ class GuessesList extends ConsumerWidget {
         duration: const Duration(days: 1),
       ));
     });
-    return Column(
-      children: [
-        for (int i = 0; i < maxGuessTrialCount; i++) GuessDisplay(i),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = min(76.0, constraints.maxWidth / 5);
+        return Column(
+          children: [
+            for (int i = 0; i < maxGuessTrialCount; i++)
+              GuessDisplay(i, guessLetterSize: size),
+          ],
+        );
+      },
     );
   }
 }
