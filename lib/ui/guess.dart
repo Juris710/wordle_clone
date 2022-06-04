@@ -8,6 +8,45 @@ import 'package:wordle_clone/riverpod/guess.dart';
 import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 
+class GuessDisplayLetter extends AnimatedWidget {
+  final String letter;
+  final Color color;
+
+  const GuessDisplayLetter({
+    Key? key,
+    required Animation<double> animation,
+    required this.letter,
+    required this.color,
+  }) : super(key: key, listenable: animation);
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueGrey, width: 3),
+        ),
+        width: 60,
+        height: 60,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..rotateX((1 - (animation.value - 0.5).abs() * 2) * pi / 2),
+          child: Container(
+            color: animation.value < 0.5 ? backgroundColorNone : color,
+            child: Center(
+              child: Text(letter.toUpperCase()),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class GuessDisplay extends HookConsumerWidget {
   final int guessIndex;
 
@@ -50,45 +89,6 @@ class GuessDisplay extends HookConsumerWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-class GuessDisplayLetter extends AnimatedWidget {
-  final String letter;
-  final Color color;
-
-  const GuessDisplayLetter({
-    Key? key,
-    required Animation<double> animation,
-    required this.letter,
-    required this.color,
-  }) : super(key: key, listenable: animation);
-
-  @override
-  Widget build(BuildContext context) {
-    final animation = listenable as Animation<double>;
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueGrey, width: 3),
-        ),
-        width: 60,
-        height: 60,
-        child: Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..rotateX((1 - (animation.value - 0.5).abs() * 2) * pi / 2),
-          child: Container(
-            color: animation.value < 0.5 ? backgroundColorNone : color,
-            child: Center(
-              child: Text(letter.toUpperCase()),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
