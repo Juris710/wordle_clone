@@ -169,8 +169,10 @@ class _KeyboardState extends ConsumerState<Keyboard> {
       backspace();
     } else if (letter == "Enter") {
       enter();
-    } else {
+    } else if (lettersInGuess.contains(letter.toLowerCase())) {
       ref.read(guessInputProvider.notifier).inputLetter(letter.toLowerCase());
+    } else {
+      return false;
     }
     return true;
   }
