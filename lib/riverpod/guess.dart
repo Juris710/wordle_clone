@@ -203,6 +203,9 @@ class GuessesNotifier extends StateNotifier<List<Guess>> {
     ref.read(hitBlowStatesProvider.notifier).addStates(guess.toMap());
     return "";
   }
+  void clear(){
+    state = [];
+  }
 }
 
 final guessesNotifierProvider =

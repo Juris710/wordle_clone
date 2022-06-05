@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wordle_clone/pages/game.dart';
 import 'package:wordle_clone/pages/home.dart';
 import 'package:wordle_clone/pages/unknown.dart';
+import 'package:wordle_clone/riverpod/guess.dart';
+import 'package:wordle_clone/riverpod/hit_blow_states.dart';
 import 'package:wordle_clone/riverpod/misc.dart';
 import 'package:wordle_clone/words.dart';
 
@@ -42,6 +44,9 @@ class GameRouterDelegate extends RouterDelegate<GameRoutePath>
       if (answer != "") {
         print("answer is $answer");
         ref.read(isAnimationPlayingProvider.notifier).state = false;
+        ref.read(guessesNotifierProvider.notifier).clear();
+        ref.read(guessInputProvider.notifier).clear();
+        ref.read(hitBlowStatesProvider.notifier).clear();
       }
       notifyListeners();
     });
