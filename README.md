@@ -2,15 +2,20 @@
 
 Flutterで制作したWordleのクローンです。
 
-## Getting Started
+## ビルド
 
-This project is a starting point for a Flutter application.
+Webサイトとして公開するためのファイル(`.html`, `.js`など)を生成するには、以下のコマンドを実行します。
 
-A few resources to get you started if this is your first Flutter project:
+```shell
+flutter build web
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 相対パスについて
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+このアプリを例えば `https://example.com/` のようなURLで公開する場合、上のコマンドで問題ありません。
+
+一方で、 `https://example.com/wordle-clone/` のようなURLで公開する場合には、代わりに次のコマンドを実行してください。
+
+```shell
+flutter build web --base-href /wordle-clone/
+```
