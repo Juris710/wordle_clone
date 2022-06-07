@@ -33,7 +33,7 @@ const List<String> lettersInGuess = [
   "z"
 ];
 
-const int guessLength = 5;
+const int guessLength = 4;
 const int maxGuessTrialCount = 6;
 
 class GuessInputNotifier extends StateNotifier<String> {
