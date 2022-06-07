@@ -22,8 +22,8 @@ void main() {
       expect(const ListEquality().equals(lettersInGuess , lettersInKeyboard), true);
     });
     test("辞書の単語の文字数が全て想定された文字数である", (){
-      for (final element in words) {
-        expect(element.length, guessLength);
+      for (final word in words) {
+        expect(word.length, guessLength);
       }
     });
     test("辞書の単語全てが入力可能な文字のみで構成されている", (){
