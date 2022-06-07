@@ -26,5 +26,12 @@ void main() {
         expect(element.length, guessLength);
       }
     });
+    test("辞書の単語全てが入力可能な文字のみで構成されている", (){
+      for (final word in words){
+        for (var i = 0; i < word.length; ++i){
+          expect(lettersInGuess.contains(word[i]), true);
+        }
+      }
+    });
   });
 }
