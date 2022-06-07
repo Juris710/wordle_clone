@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wordle_clone/ui/keyboard.dart';
 import 'package:wordle_clone/riverpod/guess.dart';
 import 'package:collection/collection.dart';
+import 'package:wordle_clone/words.dart';
 void main() {
   group("単体テスト", () {
     test("UIキーボードで全部の文字を入力できる", () {
@@ -19,6 +20,11 @@ void main() {
       ];
       lettersInKeyboard.sort();
       expect(const ListEquality().equals(lettersInGuess , lettersInKeyboard), true);
+    });
+    test("辞書の単語の文字数が全て想定された文字数である", (){
+      for (final element in words) {
+        expect(element.length, guessLength);
+      }
     });
   });
 }
